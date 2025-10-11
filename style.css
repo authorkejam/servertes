@@ -636,7 +636,7 @@ header.hidden {
 @media (max-width: 720px) {
   .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 20px;
     padding: 40px 20px;
     border-left: 1px solid var(--border-color);

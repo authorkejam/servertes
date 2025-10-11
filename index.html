@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Author Novel</title>
+  <link rel="icon" type="image/png" href="weblogo.png" />
+  <meta property="og:image" content="weblogo.png" />
+  <meta property="og:title" content="Author Novel" />
+  <meta property="og:description" content="Baca novel online, gratis selamanya" />
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:title" content="Author Novel" />
+  <meta property="og:description" content="Baca novel online, gratis selamanya" />
+  <meta property="og:image" content="https://authorkejam.github.io/authornovel/weblogo.png" />
+  <meta property="og:url" content="https://authorkejam.github.io/authornovel/" />
+  <meta property="og:type" content="website" />
+</head>
+<main>
+<body>
+  
+  <header>
+    <div class="custom-header">
+  <div class="circle-a">A</div>
+  <span class="header-text">
+    UTH<span class="circle-or">O</span><span class="circle-or">R</span> NOVEL
+  </span>
+</div>
+    <button id="darkModeToggle">🌙</button>
+  </header>
+  <div class="informasi"><p>Novel "Being Kind", tidak dianjurkan untuk diselesaikan.</p></div>
+  <button class="menu-btn" id="menuBtn">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <button class="back-btn" id="backBtn">← Back to Novels</button>
+    <h2 id="novelTitle">Chapters</h2>
+    <div class="chapter-list" id="chapterList"></div>
+  </div>
+
+  <div class="main-container">
+    <div class="sort-controls">
+      <label for="sortSelect">Sortir Novel:</label>
+      <select id="sortSelect">
+        <option value="latest">Terbaru</option>
+        <option value="oldest">Terlama</option>
+        <option value="name">Nama A-Z</option>
+      </select>
+    </div>
+    <div class="view-controls">
+      <button id="blogsBtn">Blogs</button>
+      <button id="novelsBtn">Novels</button>
+      <button id="shortstoriesBtn">Short Stories</button>
+      <button id="aboutBtn">About</button>
+    </div>
+    <div class="gallery" id="novelGallery"></div>
+
+    <div class="reader" id="reader">
+      <div class="content">
+        <button class="reader-back-btn" id="readerBackBtn">← Back to Novels</button>
+        <h2 id="readerNovelTitle"></h2>
+        <h3 id="readerChapterTitle" class="content-chapter-title"></h3>
+        <div class="chapter-nav">
+          <button id="prevChapterBtn" class="nav-btn">← previous</button>
+          <button id="nextChapterBtn" class="nav-btn">next →</button>
+        </div>
+        <div class="font-controls">
+          <button id="decreaseFont" class="font-btn">A-</button>
+          <button id="increaseFont" class="font-btn">A+</button>
+          <button id="alignLeft" class="font-btn">Left</button>
+          <button id="alignCenter" class="font-btn">Center</button>
+          <button id="alignJustify" class="font-btn">Justify</button>
+        </div>
+        <div class="chapter-content" id="chapterContent"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Data Novel dan berkas bacaannya
+    let novels = [
+      {
+        id: 0,
+        title: "TUTORIAL PENGGUNAAN",
+        date: "10-10-2025",
+        genre: ["Baca dulu, ini mungkin membantu"],
+        chapters: [
+          {
+            title: "Tutorial Chapter 1: Tombol Kontrol",
+            file: "Novel/Tutorial/tutorial1.md"
+          },
+          {
+            title: "Tutorial Chapter 2: Navigasi",
+            file: "Novel/Tutorial/tutorial2.md"
+          },
+          {
+            title: "Pengenalan",
+            file: "Novel/Tutorial/Pengenalan.md"
+          },
+          {
+            title: "list keinginan",
+            file: "Novel/Tutorial/listkeinginan.md"
+          }
+        ]
+      },
+      {
+        id: 1,
+        title: "Another Side",
+        date: "18-06-2019",
+        status: "Bersambung",
+        genre: ["Drama", "Romance", "Tragedy"],
+        cover: "cover/Another-cover.png",
+        chapters: [
+          {
+            title: "Prologue",
+            file: "Novel/1Anotherside/Know the Characters.md"
+          },
+          {
+            title: "Chapter 1: Sepotong Roti",
+            file: "Novel/1Anotherside/anotherside_chapter1.md"
+          },
+          {
+            title: "Chapter 2: Tempat Kerja",
+            file: "Novel/1Anotherside/anotherside_chapter2.md"
+          },
+          {
+            title: "Chapter 3: Tanggung Jawab",
+            file: "Novel/1Anotherside/anotherside_chapter3.md"
+          },
+          {
+            title: "Chapter 4: Candaan",
+            file: "Novel/1Anotherside/anotherside_chapter4.md"
+          },
+          {
+            title: "Chapter 5: Boneka Rusak",
+            file: "Novel/1Anotherside/anotherside_chapter5.md"
+          },
+          {
+            title: "Chapter 6: Namamu?",
+            file: "Novel/1Anotherside/anotherside_chapter6.md"
+          },
+          {
+            title: "Chapter 7: Balas Dendam",
+            file: "Novel/1Anotherside/anotherside_chapter7.md"
+          },
+          {
+            title: "Chapter 8: Masa Laluku",
+            file: "Novel/1Anotherside/anotherside_chapter8.md"
+          },
+          {
+            title: "Chapter 9: Renata Kecil",
+            file: "Novel/1Anotherside/anotherside_chapter9.md"
+          },
+          {
+            title: "Chapter 10: Sahabatku",
+            file: "Novel/1Anotherside/anotherside_chapter10.md"
+          },
+          {
+            title: "Chapter 11: Liburan",
+            file: "Novel/1Anotherside/anotherside_chapter11.md"
+          },
+          {
+            title: "Chapter 12: Sesuatu yang tak Kuinginkan",
+            file: "Novel/1Anotherside/anotherside_chapter12.md"
+          },
+          {
+            title: "Chapter 13: Ingatan yang Salah",
+            file: "Novel/1Anotherside/anotherside_chapter13.md"
+          },
+          {
+            title: "Chapter 14: Another Story",
+            file: "Novel/1Anotherside/anotherside_chapter14.md"
+          },
+          {
+            title: "Chapter 15: Aku & Deona",
+            file: "Novel/1Anotherside/anotherside_chapter15.md"
+          },
+          {
+            title: "Chapter 16:",
+            file: "Novel/1Anotherside/anotherside_chapter16.md"
+          },
+          
+        ]
+      },
+      {
+        id: 2,
+        title: "Boulevards of Broken Dream",
+        date: "03-08-2024",
+        status: "Bersambung",
+        genre: ["Drama", "Crime",],
+        cover: "cover/Boulevards-cover.png",
+        chapters: [
+          {
+            title: "Chapter 1: Just a Dream",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter1.md"
+          },
+          {
+            title: "Chapter 2: Broken Heart",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter2.md"
+          },
+          {
+            title: "Chapter 3: Broken Way",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter3.md"
+          },
+          {
+            title: "Chapter 4: Broken Drive",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter4.md"
+          },
+          {
+            title: "Chapter 5: The Broken Rules",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter5.md"
+          },
+          {
+            title: "Chapter 6: The Broken Promise",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter6.md"
+          },
+          {
+            title: "Chapter 7: The Broken Story",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter7.md"
+          },
+          {
+            title: "Chapter 8: The Broken Dream",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter8.md"
+          },
+          {
+            title: "Chapter 9: The Broken Past",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter9.md"
+          },
+          {
+            title: "Chapter 10: Broken Choices",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter10.md"
+          },
+          {
+            title: "Chapter 11: Broken Memory",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter11.md"
+          },
+          {
+            title: "Chapter 12: Broken Friend",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter12.md"
+          },
+          {
+            title: "Chapter 13: Broken Soul",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter13.md"
+          },
+          {
+            title: "Chapter 14: Broken Truth",
+            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter14.md"
+          }
+        ]
+      },
+      {
+        id:3,
+        title: "Being Kind?",
+        date: "30-12-2023",
+        status: "Completed",
+        genre: ["Philosophy","Psychology","Short"],
+        cover: "cover/beingkind-cover.png",
+        chapters: [
+          {
+            title: "Chapter 1: Concept of Kindness",
+            file: "Novel/3BeingKind/beingkind_chapter1.md"
+          },
+          {
+            title: "Chapter 2: Forgotten Kindness",
+            file: "Novel/3BeingKind/beingkind_chapter2.md"
+          },
+          {
+            title: "Chapter 3: Lost of Self",
+            file: "Novel/3BeingKind/beingkind_chapter3.md"
+          },
+          {
+            title: "Chapter 4: I Thoutght being Kind is a Gift, instead it's a Curse",
+            file: "Novel/3BeingKind/beingkind_chapter4.md"
+          },
+          {
+            title: "Chapter 5: Kebaikan adalah hal yang menyakitkan",
+            file: "Novel/3BeingKind/beingkind_chapter5.md"
+          },
+          {
+            title: "Chapter 6: Aku lelah menjadi Baik",
+            file: "Novel/3BeingKind/beingkind_chapter6.md"
+          },
+          {
+            title: "Chapter 7: Just because doing samoething good,",
+            file: "Novel/3BeingKind/beingkind_chapter7.md"
+          },
+          {
+            title: "Chapter 8: doesn't mean you Kind",
+            file: "Novel/3BeingKind/beingkind_chapter8.md"
+          },
+          {
+            title: "Chapter 9: Bagi Untuk Orang Lain, Buruk Bagiku",
+            file: "Novel/3BeingKind/beingkind_chapter9.md"
+          },
+          {
+            title: "Chapter 10: Hate and Trust",
+            file: "Novel/3BeingKind/beingkind_chapter10.md"
+          },
+          {
+            title: "Chapter 11: What is good? What is bad?",
+            file: "Novel/3BeingKind/beingkind_chapter11.md"
+          },
+          {
+            title: "Chapter 12: Illusion and Kindness",
+            file: "Novel/3BeingKind/beingkind_chapter12.md"
+          },
+          {
+            title: "The Past",
+            file: "Novel/3BeingKind/beingkind_chapter13.md"
+          },
+          {
+            title: "Note for Readers",
+            file: "Novel/3BeingKind/beingkind_chapter14.md"
+          }
+
+        ]
+      },
+      {
+        id: 4,
+        title: "VAL",
+        date: "01-04-2025",
+        status: "Ongoing",
+        genre: ["Drama","Romance"],
+        cover: "cover/Val-cover.png",
+        chapters: [
+          {
+            title: "Chapter 1: PILIHAN YANG SALAH",
+            file: "Novel/4VAL/val_chapter1.md"
+          },
+          {
+            title: "Chapter 2: Kehidupan Sekolah yang Berbeda",
+            file: "Novel/4VAL/val_chapter2.md"
+          },
+          {
+            title: "Chapter 3: Masa Perkuliahan",
+            file: "Novel/4VAL/val_chapter3.md"
+          },
+          {
+            title: "Chapter 4: Double Date",
+            file: "Novel/4VAL/val_chapter4.md"
+          }
+        ]
+      },
+       /*{
+       id: 4,
+        title: "The Last Day",
+        date: "01-04-2025",
+        status: "Completed",
+        genre: ["Belum Tersedia",],
+        chapters: [
+          {
+            title: "Chapter 1: The Beginning of the End",
+            file: "Novel/3novel2_chapter1.md"
+          },
+          {
+            title: "Chapter 2: Facing Reality",
+            file: "Novel/3novel2_chapter2.md"
+          },
+          {
+            title: "Chapter 3: Final Moments",
+            file: "Novel/3novel2_chapter3.md"
+          }
+        ]
+      },*/
+      {
+        id: 5,
+        title: "Hunted by Death",
+        date: "01-04-2024",
+        status: "?",
+        genre: ["Belum Tersedia",],
+        cover: "cover/Hunted-cover.png",
+        chapters: [
+          {
+            title: "Chapter 1: The Chase Begins",
+            file: "Novel/3novel3_chapter1.md"
+          },
+          {
+            title: "Chapter 2: Shadows of the Past",
+            file: "Novel/3novel3_chapter2.md"
+          }
+        ]
+      }
+    ];
+
+    let blogs = [
+      {
+        id: 0,
+        title: "Sample Blog",
+        date: "01-01-2023",
+        chapters: [
+          {
+            title: "Short Story",
+            file: "Blog/SampleBlog/blog4.md"
+          },
+          {
+            title: "Update vers3",
+            file: "Blog/SampleBlog/3sampleblog.md"
+          },
+          {
+            title: "Novel sampel (Apr 01, 2025)",
+            file: "Blog/SampleBlog/blog2.md"
+          },
+          {
+            title: "Update vers 2",
+            file: "Blog/SampleBlog/2sampleblog.md"
+          },
+          {
+            title: "Novel sampel (Jan 10, 2025)",
+            file: "Blog/SampleBlog/blog1.md"
+          },
+          {
+            title: "Update vers 1",
+            file: "Blog/SampleBlog/1sampleblog.md"
+          },
+        ]
+      }
+    ];
+      
+    let shortstories = [
+    {  
+    id: 1,
+      title: "Every Story Have A Meaning",
+      date: "01-01-2023",
+      cover: "cover/EveryStory-cover.jpg",
+      chapters: [
+        {
+          title: "Story 1: Dermaga Harapan",
+          file: "Short/EveryStory/1EveryStory.md"
+        },
+        {
+          title: "Story 2: Sakura",
+          file: "Short/EveryStory/2EveryStory.md"
+        },
+        {
+          title: "Story 3: Restoran Milik Kita",
+          file: "Short/EveryStory/3EveryStory.md"
+        },
+        {
+          title: "Story 4: Tak Bersuara",
+          file: "Short/EveryStory/4EveryStory.md"
+        },
+        {
+          title: "Story 5: Hujan di Bulan Juni",
+          file: "Short/EveryStory/5EveryStory.md"
+        }
+      ]
+    },
+    {id: 2,
+      title: "Broken Home",
+      date: "12-02-2025",
+      cover: "cover/Broken-cover.png",
+      chapters: [
+        {
+          title: "Arhal",
+          file: "Short/BrokenHome/1Broken.md"
+        },
+        {
+          title: "Jesica",
+          file: "Short/BrokenHome/2Broken.md"
+        },
+        {
+          title: "Akira",
+          file: "Short/BrokenHome/3Broken.md"
+        },
+        {
+          title: "Mora",
+          file: "Short/BrokenHome/4Broken.md"
+        },
+        {
+          title: "Rika",
+          file: "Short/BrokenHome/5Broken.md"
+        },
+        {
+          title: "Rayan",
+          file: "Short/BrokenHome/6Broken.md"
+        },
+        {
+          title: "Note for Readers",
+          file: "Short/BrokenHome/7Note.md"
+        }
+      ]
+    }
+    ];
+
+    let about = [
+      {
+        id: 0,
+        title: "About",
+        date: "01-01-2023",
+        chapters: [
+          {
+            title: "About the Author",
+            file: "About/about.md"
+          }
+        ]
+      }
+    ];
+
+    let currentView = 'novels';
+    let currentData = novels;
+
+    function sortData(data, criterion) {
+      data.sort((a, b) => {
+        if (criterion === 'name') {
+          return a.title.localeCompare(b.title);
+        } else if (criterion === 'latest') {
+          const dateA = a.date ? new Date(a.date.split('-').reverse().join('-')) : new Date(0);
+          const dateB = b.date ? new Date(b.date.split('-').reverse().join('-')) : new Date(0);
+          return dateB - dateA;
+        } else if (criterion === 'oldest') {
+          const dateA = a.date ? new Date(a.date.split('-').reverse().join('-')) : new Date(0);
+          const dateB = b.date ? new Date(b.date.split('-').reverse().join('-')) : new Date(0);
+          return dateA - dateB;
+        }
+      });
+    }
+
+    const sortSelect = document.getElementById('sortSelect');
+    sortSelect.addEventListener('change', () => {
+      sortData(currentData, sortSelect.value);
+      renderGallery();
+    });
+
+    // Initial sort
+    sortData(currentData, 'latest');
+
+    // Improved markdown to HTML converter for basic markdown used here
+    function markdownToHTML(md) {
+      const blocks = md.split(/\n\s*\n/);
+      let html = '';
+
+      blocks.forEach(block => {
+        block = block.trim();
+        if (block === '') return;
+
+        // Handle horizontal rules
+        if (block.match(/^[-*_]{3,}$/)) {
+          html += '<hr>';
+          return;
+        }
+
+        if (block.match(/^#{1,3} /) || block.match(/^\> /)) {
+          // heading or blockquote, process as is
+          const lines = block.split('\n');
+          lines.forEach(line => {
+        let converted = line
+          .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+          .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+          .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+          .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+          .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+          .replace(/\*(.*)\*/gim, '<em>$1</em>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // links akun
+            html += converted + '<br />';
+          });
+        } else {
+          // paragraph or list
+          const lines = block.split('\n');
+          let paraHtml = '';
+          let inList = false;
+          lines.forEach(line => {
+            if (/^\- /.test(line)) {
+              if (!inList) {
+                paraHtml += '<ul>';
+                inList = true;
+              }
+              paraHtml += '<li>' + line.replace(/^\- /, '') + '</li>';
+            } else {
+              if (inList) {
+                paraHtml += '</ul>';
+                inList = false;
+              }
+              let converted = line
+                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // links akun
+              paraHtml += converted + ' ';
+            }
+          });
+          if (inList) {
+            paraHtml += '</ul>';
+          }
+          html += '<p>' + paraHtml.trim() + '</p>';
+        }
+      });
+
+      return html.trim();
+    }
+
+    const novelGallery = document.getElementById('novelGallery');
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('menuBtn');
+    const backBtn = document.getElementById('backBtn');
+    const chapterList = document.getElementById('chapterList');
+    const reader = document.getElementById('reader');
+    const readerNovelTitle = document.getElementById('readerNovelTitle');
+    const readerChapterTitle = document.getElementById('readerChapterTitle');
+    const chapterContent = document.getElementById('chapterContent');
+    const novelTitle = document.getElementById('novelTitle');
+    const readerBackBtn = document.getElementById('readerBackBtn');
+
+    function updateBackButtons() {
+      const viewName = currentView === 'shortstories' ? 'Short Stories' : currentView.charAt(0).toUpperCase() + currentView.slice(1);
+      backBtn.textContent = `← Back to ${viewName}`;
+      readerBackBtn.textContent = `← Back to ${viewName}`;
+    }
+
+    // Hide sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && e.target !== menuBtn) {
+        sidebar.classList.remove('active');
+        menuBtn.style.display = 'block';
+        sidebarShownByHover = false;
+        sidebarShownBySwipe = false;
+      }
+    });
+
+    // Show sidebar on hover left edge (desktop)
+    document.addEventListener('mousemove', (e) => {
+      if (currentNovel) {
+        if (e.clientX < 60 && !sidebar.classList.contains('active')) {
+          sidebar.classList.add('active');
+          sidebarShownByHover = true;
+          menuBtn.style.display = 'none';
+        } else if (e.clientX >= 60 && sidebarShownByHover && !sidebar.contains(e.target)) {
+          sidebar.classList.remove('active');
+          sidebarShownByHover = false;
+          menuBtn.style.display = 'block';
+        }
+      }
+    });
+
+    // Hide sidebar on mouse leave (desktop) only if not in a novel
+    sidebar.addEventListener('mouseleave', () => {
+      if (sidebarShownByHover && !currentNovel) {
+        sidebar.classList.remove('active');
+        sidebarShownByHover = false;
+        menuBtn.style.display = 'block';
+      }
+    });
+
+    // Touch events for swipe right (mobile)
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchInReader = reader.contains(e.touches[0].target);
+    });
+
+    document.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+      if (currentNovel && Math.abs(deltaX) > Math.abs(deltaY) && deltaX > 100 && touchInReader && !sidebar.classList.contains('active')) {
+        sidebar.classList.add('active');
+        sidebarShownBySwipe = true;
+        menuBtn.style.display = 'none';
+      } else if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX < -100 && sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        sidebarShownBySwipe = false;
+        menuBtn.style.display = 'block';
+      }
+    });
+
+    // Render novel gallery
+    function renderGallery() {
+      novelGallery.innerHTML = '';
+      if (currentData.length === 0) {
+        const message = currentView === 'shortstories' ? 'No short stories available yet.' : `No ${currentView} available yet.`;
+        novelGallery.innerHTML = `<p>${message}</p>`;
+        return;
+      }
+      if (currentView === 'blogs') {
+        novelGallery.classList.add('blog-view');
+        currentData.forEach((item) => {
+          item.chapters.forEach((chapter) => {
+            const post = document.createElement('div');
+            post.className = 'blog-post';
+            const title = document.createElement('h2');
+            title.textContent = chapter.title;
+            post.appendChild(title);
+            const content = document.createElement('div');
+            content.className = 'blog-content';
+            post.appendChild(content);
+            novelGallery.appendChild(post);
+            // Fetch and render content
+            fetch(chapter.file)
+              .then(response => response.text())
+              .then(md => {
+                content.innerHTML = markdownToHTML(md);
+              })
+              .catch(error => {
+                content.innerHTML = '<p>Error loading content.</p>';
+              });
+          });
+        });
+        novelGallery.style.display = 'block';
+      } else if (currentView === 'about') {
+        novelGallery.classList.add('blog-view');
+        currentData.forEach((item) => {
+          item.chapters.forEach((chapter) => {
+            const post = document.createElement('div');
+            post.className = 'blog-post';
+            const title = document.createElement('h2');
+            title.textContent = chapter.title;
+            post.appendChild(title);
+            const content = document.createElement('div');
+            content.className = 'blog-content';
+            post.appendChild(content);
+            novelGallery.appendChild(post);
+            // Fetch and render content
+            fetch(chapter.file)
+              .then(response => response.text())
+              .then(md => {
+                content.innerHTML = markdownToHTML(md);
+              })
+              .catch(error => {
+                content.innerHTML = '<p>Error loading content.</p>';
+              });
+          });
+        });
+        novelGallery.style.display = 'block';
+      } else {
+        novelGallery.classList.remove('blog-view');
+        currentData.forEach((item, index) => {
+          const card = document.createElement('div');
+          card.className = 'novel-card';
+
+          if (item.cover) {
+            const img = document.createElement('img');
+            img.src = item.cover;
+            img.alt = item.title + ' cover';
+            card.appendChild(img);
+          }
+
+          // Judul
+          const title = document.createElement('div');
+          title.className = 'novel-title';
+          title.textContent = item.title;
+          card.appendChild(title);
+
+          // Date
+          if (item.date) {
+            const date = document.createElement('div');
+            date.className = 'novel-date';
+            date.textContent = item.date;
+            card.appendChild(date);
+          }
+
+          //Status
+          if (item.status) {
+            const status = document.createElement('div');
+            status.className = 'novel-status';
+            status.textContent = item.status;
+            card.appendChild(status);
+          }
+
+          // Genre
+          if (item.genre) {
+            const genre = document.createElement('div');
+            genre.className = 'novel-genre outline-text';
+            genre.textContent = "" + item.genre.join(', ');
+            card.appendChild(genre);
+          }
+
+          //warna novel card
+          if (item.title === "Being Kind?") {
+            card.classList.add('being-kind');
+          }
+
+          card.onclick = () => openNovel(item);
+          novelGallery.appendChild(card);
+
+          // Add slide down animation with stagger
+          setTimeout(() => {
+            card.classList.add('animate-in');
+          }, index * 100);
+        });
+        novelGallery.style.display = 'grid';
+      }
+      reader.classList.remove('active');
+      menuBtn.style.display = 'none';
+      sidebar.classList.remove('active');
+      readerBackBtn.style.display = 'none';
+      sidebarShownByHover = false;
+      sidebarShownBySwipe = false;
+    }
+
+    // Open novel and show chapters in sidebar
+    function openNovel(novel) {
+      currentNovel = novel;
+      novelTitle.textContent = novel.title;
+      chapterList.innerHTML = '';
+      novel.chapters.forEach((chapter, index) => {
+        const button = document.createElement('button');
+        button.textContent = chapter.title;
+        button.onclick = () => openChapter(index);
+        chapterList.appendChild(button);
+      });
+      sidebar.classList.add('active');
+      menuBtn.style.display = 'none';
+      novelGallery.style.display = 'none';
+      reader.classList.add('active');
+      readerBackBtn.style.display = 'block';
+      // Open first chapter by default
+      openChapter(0);
+      sidebarShownByHover = false;
+      sidebarShownBySwipe = false;
+    }
+
+    // Open chapter and render content
+    function openChapter(index) {
+      if (!currentNovel) return;
+      if (index < 0 || index >= currentNovel.chapters.length) return;
+      const chapter = currentNovel.chapters[index];
+      currentChapterIndex = index;
+      readerNovelTitle.textContent = currentNovel.title;
+      readerChapterTitle.textContent = chapter.title;
+      chapterContent.classList.remove('content-visible');
+      fetch(chapter.file)
+        .then(response => response.text())
+        .then(md => {
+          chapterContent.innerHTML = markdownToHTML(md);
+          chapterContent.classList.add('content-visible');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(error => {
+          chapterContent.innerHTML = '<p>Error loading chapter.</p>';
+        });
+      // Update current chapter highlight
+      const buttons = chapterList.querySelectorAll('button');
+      buttons.forEach((btn, i) => {
+        if (i === index) {
+          btn.classList.add('current-chapter');
+        } else {
+          btn.classList.remove('current-chapter');
+        }
+      });
+      // Hide sidebar when switching chapters
+      sidebar.classList.remove('active');
+      menuBtn.style.display = 'block';
+      sidebarShownByHover = false;
+      sidebarShownBySwipe = false;
+    }
+
+    // Back to novel gallery
+    backBtn.onclick = () => {
+      currentNovel = null;
+      renderGallery();
+      menuBtn.style.display = 'none';
+      readerBackBtn.style.display = 'none';
+      sidebarShownByHover = false;
+      sidebarShownBySwipe = false;
+    };
+
+    // Reader back button
+    readerBackBtn.onclick = () => {
+      currentNovel = null;
+      renderGallery();
+      sidebarShownByHover = false;
+      sidebarShownBySwipe = false;
+    };
+
+    // Add event listeners for view buttons
+    const novelsBtn = document.getElementById('novelsBtn');
+    const blogsBtn = document.getElementById('blogsBtn');
+    const shortstoriesBtn = document.getElementById('shortstoriesBtn');
+
+    novelsBtn.addEventListener('click', () => {
+      currentView = 'novels';
+      currentData = novels;
+      sortData(currentData, sortSelect.value);
+      updateBackButtons();
+      renderGallery();
+    });
+
+    blogsBtn.addEventListener('click', () => {
+      currentView = 'blogs';
+      currentData = blogs;
+      sortData(currentData, sortSelect.value);
+      updateBackButtons();
+      renderGallery();
+    });
+
+    shortstoriesBtn.addEventListener('click', () => {
+      currentView = 'shortstories';
+      currentData = shortstories;
+      sortData(currentData, sortSelect.value);
+      updateBackButtons();
+      renderGallery();
+    });
+
+    const aboutBtn = document.getElementById('aboutBtn');
+    aboutBtn.addEventListener('click', () => {
+      currentView = 'about';
+      currentData = about;
+      sortData(currentData, sortSelect.value);
+      updateBackButtons();
+      renderGallery();
+    });
+
+    // Track current chapter index for navigation
+    let currentChapterIndex = 0;
+    let currentNovel = null;  // Added to fix ReferenceError for currentNovel
+    let touchInReader = false;
+
+    // Previous and Next chapter buttons
+    const prevChapterBtn = document.getElementById('prevChapterBtn');
+    const nextChapterBtn = document.getElementById('nextChapterBtn');
+
+    prevChapterBtn.addEventListener('click', () => {
+      if (!currentNovel) return;
+      if (currentChapterIndex > 0) {
+        openChapter(currentChapterIndex - 1);
+      }
+    });
+
+    nextChapterBtn.addEventListener('click', () => {
+      if (!currentNovel) return;
+      if (currentChapterIndex < currentNovel.chapters.length - 1) {
+        openChapter(currentChapterIndex + 1);
+      }
+    });
+
+    // Toggle sidebar menu
+    menuBtn.onclick = () => {
+      sidebar.classList.toggle('active');
+      if (sidebar.classList.contains('active')) {
+        menuBtn.style.display = 'none';
+      }
+      sidebarShownByHover = false;
+      sidebarShownBySwipe = false;
+    };
+
+    // Initial render
+    renderGallery();
+
+    // Font size control logic
+    const decreaseFontBtn = document.getElementById('decreaseFont');
+    const increaseFontBtn = document.getElementById('increaseFont');
+    let currentFontSize = 16; // default font size in px
+
+    function updateFontSize() {
+      chapterContent.style.fontSize = currentFontSize + 'px';
+      /*const paragraphs = chapterContent.querySelectorAll('p');
+      paragraphs.forEach(p => {
+        p.style.fontSize = currentFontSize + 'px';
+      });*/
+    }
+
+    decreaseFontBtn.addEventListener('click', () => {
+      if (currentFontSize > 10) { // minimum font size
+        currentFontSize -= 2;
+        updateFontSize();
+      }
+    });
+
+    increaseFontBtn.addEventListener('click', () => {
+      if (currentFontSize < 36) { // maximum font size
+        currentFontSize += 2;
+        updateFontSize();
+      }
+    });
+
+    // Track current text alignment, default to 'left'
+    let currentTextAlign = 'left';
+
+    // Update font size after loading chapter content
+    const originalOpenChapter = openChapter;
+    openChapter = function(index) {
+      originalOpenChapter(index);
+      // Delay update to ensure content is loaded
+      setTimeout(() => {
+        updateFontSize();
+        chapterContent.style.textAlign = currentTextAlign; // apply last selected alignment/ingat pilihan align terakhir
+      }, 100);
+    };
+
+    // Text alignment control logic
+    const alignLeftBtn = document.getElementById('alignLeft');
+    const alignCenterBtn = document.getElementById('alignCenter');
+    const alignJustifyBtn = document.getElementById('alignJustify');
+
+    alignLeftBtn.addEventListener('click', () => {
+      chapterContent.style.textAlign = 'left';
+      currentTextAlign = 'left';
+    });
+
+    alignCenterBtn.addEventListener('click', () => {
+      chapterContent.style.textAlign = 'center';
+      currentTextAlign = 'center';
+    });
+
+    alignJustifyBtn.addEventListener('click', () => {
+      chapterContent.style.textAlign = 'justify';
+      currentTextAlign = 'justify';
+    });
+
+    // Hide header on scroll
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        document.querySelector('header').classList.add('hidden');
+      } else {
+        document.querySelector('header').classList.remove('hidden');
+      }
+      lastScrollTop = scrollTop;
+    });
+
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      darkModeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    });
+  </script>
+</body>
+</main>
+
+  <footer>
+    <p><h2>&copy; 2025 Author Kejam Blog. All rights reserved.</h2></p>
+    <!--<div id="visitor-count" style="position: absolute; left: 10px; bottom: 1px">Visitors: </div>-->
+  </footer>
+
+  <script src="alert.js"></script>
+
+  <footer>
+    <p><strong>Short Story</strong> dan <strong>Blog</strong> akan kembali ditambahkan dimasa mendatang.</p>
+    <!--<p>Semua Novel dibuat dengan dua aplikasi ini</p>
+    <p>Quollwriter dan Litewriter</p>
+    <img src="logo/quollwriter-logo.png" alt="Quollwriter Logo" class="footer-logo">
+    <img src="logo/litewriter-logo.jpg" alt="Litewriter Logo" class="footer-logo">-->
+  </footer>
+  
+</html>
+

@@ -1,1181 +1,1329 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Author Novel</title>
-  <link rel="icon" type="image/png" href="weblogo.png" />
-  <meta property="og:image" content="weblogo.png" />
-  <meta property="og:title" content="Author Novel" />
-  <meta property="og:description" content="Baca novel online, gratis selamanya" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.13/lottie.min.js"></script>
-  <meta property="og:title" content="Author Novel" />
-  <meta property="og:description" content="Baca novel online, gratis selamanya" />
-  <meta property="og:image" content="https://authorkejam.github.io/authornovel/weblogo.png" />
-  <meta property="og:url" content="https://authorkejam.github.io/authornovel/" />
-  <meta property="og:type" content="website" />
-</head>
-<main>
-<body>
+:root {
+  --bg-color: white;
+  --text-color: #333;
+  --header-bg: #333;
+  --card-bg: #333;
+  --sidebar-bg: #f0f0f0;
+  --footer-bg: #333;
+  --border-color: #ccc;
+  --btn-bg: #007bff;
+  --btn-hover: #0056b3;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #1e1e1e;
+  --card-bg: #2a2a2a;
+  --sidebar-bg: #2a2a2a;
+  --footer-bg: #1e1e1e;
+  --border-color: #555;
+  --btn-bg: #4a90e2;
+  --btn-hover: #357abd;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.custom-header {
+  animation: fadeIn 2s ease-in;
+}
+
+.menu-btn {
+  animation: pulse 2s infinite;
+}
+
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+/* Gallery Grid */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  box-sizing: border-box;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 15px;
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Tambahan untuk deskripsi dan genre */
+.novel-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1px 1px;
+}
+.informasi{
+  position: relative;
+  top: 5px;
+  text-align: center;
+}
+
+.novel-date {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.6em;
+  color: var(--border-color);
+}
+
+.novel-status {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.6em;
+  color: var(--border-color);
+}
+
 
-
-
-  <header>
-    <div class="custom-header">
-      <span class="letter circle-a">A</span>
-      <span class="letter">U</span>
-      <span class="letter">T</span>
-      <span class="letter">H</span>
-      <span class="letter circle-or">O</span>
-      <span class="letter circle-or">R</span>
-      <span class="letter space">&nbsp;</span>
-      <span class="letter">N</span>
-      <span class="letter">O</span>
-      <span class="letter">V</span>
-      <span class="letter">E</span>
-      <span class="letter">L</span>
-    </div>
-    <button id="darkModeToggle">🌙</button>
-  </header>
-  <button class="menu-btn" id="menuBtn">☰</button>
-
-  <div class="sidebar" id="sidebar">
-    <button class="back-btn" id="backBtn">← Back to Novels</button>
-    <h2 id="novelTitle">Chapters</h2>
-    <div class="chapter-list" id="chapterList"></div>
-  </div>
-
-  <div class="main-container">
-    <div class="sort-controls">
-      <label for="sortSelect">Sortir Novel:</label>
-      <select id="sortSelect">
-        <option value="latest">Terbaru</option>
-        <option value="oldest">Terlama</option>
-        <option value="name">Nama A-Z</option>
-      </select>
-    </div>
-    <div class="view-controls">
-      <button id="blogsBtn">Blogs</button>
-      <button id="novelsBtn">Novels</button>
-      <button id="shortstoriesBtn">Short Stories</button>
-      <button id="aboutBtn">About</button>
-    </div>
-    <div class="gallery" id="novelGallery"></div>
-
-    <div class="reader" id="reader">
-      <div class="content">
-        <button class="reader-back-btn" id="readerBackBtn">← Back to Novels</button>
-        <h2 id="readerNovelTitle"></h2>
-        <h3 id="readerChapterTitle" class="content-chapter-title"></h3>
-        <div class="chapter-nav">
-          <button id="prevChapterBtn" class="nav-btn">← previous</button>
-          <button id="nextChapterBtn" class="nav-btn">next →</button>
-        </div>
-        <div class="font-controls">
-          <button id="decreaseFont" class="font-btn">A-</button>
-          <button id="increaseFont" class="font-btn">A+</button>
-          <button id="alignLeft" class="font-btn">Left</button>
-          <button id="alignCenter" class="font-btn">Center</button>
-          <button id="alignJustify" class="font-btn">Justify</button>
-        </div>
-        <div class="chapter-content" id="chapterContent"></div>
-      </div>
-    </div>
-  </div>
-  <script>
-    // Data Novel dan berkas bacaannya
-    let novels = [
-      {
-        id: 0,
-        title: "TUTORIAL PENGGUNAAN",
-        date: "10-10-2025",
-        genre: ["Baca dulu, ini mungkin membantu"],
-        chapters: [
-          {
-            title: "Tutorial Chapter 1: Tombol Kontrol",
-            file: "Novel/Tutorial/tutorial1.md"
-          },
-          {
-            title: "Tutorial Chapter 2: Navigasi",
-            file: "Novel/Tutorial/tutorial2.md"
-          },
-          {
-            title: "Pengenalan",
-            file: "Novel/Tutorial/Pengenalan.md"
-          },
-          {
-            title: "list keinginan",
-            file: "Novel/Tutorial/listkeinginan.md"
-          }
-        ]
-      },
-      {
-        id: 1,
-        title: "Another Side",
-        date: "18-06-2019",
-        status: "Bersambung",
-        genre: ["Drama", "Romance", "Tragedy"],
-        cover: "cover/Another-cover.jpg",
-        chapters: [
-          {
-            title: "Prologue",
-            file: "Novel/1Anotherside/Know the Characters.md"
-          },
-          {
-            title: "Chapter 1: Sepotong Roti",
-            file: "Novel/1Anotherside/anotherside_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Tempat Kerja",
-            file: "Novel/1Anotherside/anotherside_chapter2.md"
-          },
-          {
-            title: "Chapter 3: Tanggung Jawab",
-            file: "Novel/1Anotherside/anotherside_chapter3.md"
-          },
-          {
-            title: "Chapter 4: Candaan",
-            file: "Novel/1Anotherside/anotherside_chapter4.md"
-          },
-          {
-            title: "Chapter 5: Boneka Rusak",
-            file: "Novel/1Anotherside/anotherside_chapter5.md"
-          },
-          {
-            title: "Chapter 6: Namamu?",
-            file: "Novel/1Anotherside/anotherside_chapter6.md"
-          },
-          {
-            title: "Chapter 7: Balas Dendam",
-            file: "Novel/1Anotherside/anotherside_chapter7.md"
-          },
-          {
-            title: "Chapter 8: Masa Laluku",
-            file: "Novel/1Anotherside/anotherside_chapter8.md"
-          },
-          {
-            title: "Chapter 9: Renata Kecil",
-            file: "Novel/1Anotherside/anotherside_chapter9.md"
-          },
-          {
-            title: "Chapter 10: Sahabatku",
-            file: "Novel/1Anotherside/anotherside_chapter10.md"
-          },
-          {
-            title: "Chapter 11: Liburan",
-            file: "Novel/1Anotherside/anotherside_chapter11.md"
-          },
-          {
-            title: "Chapter 12: Sesuatu yang tak Kuinginkan",
-            file: "Novel/1Anotherside/anotherside_chapter12.md"
-          },
-          {
-            title: "Chapter 13: Ingatan yang Salah",
-            file: "Novel/1Anotherside/anotherside_chapter13.md"
-          },
-          {
-            title: "Chapter 14: Another Story",
-            file: "Novel/1Anotherside/anotherside_chapter14.md"
-          },
-          {
-            title: "Chapter 15: Aku & Deona",
-            file: "Novel/1Anotherside/anotherside_chapter15.md"
-          },
-          {
-            title: "Chapter 16:",
-            file: "Novel/1Anotherside/anotherside_chapter16.md"
-          },
-          
-        ]
-      },
-      {
-        id: 2,
-        title: "Boulevards of Broken Dream",
-        date: "03-08-2024",
-        status: "Bersambung",
-        genre: ["Drama", "Crime",],
-        cover: "cover/Boulevards-cover.jpg",
-        chapters: [
-          {
-            title: "Chapter 1: Just a Dream",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Broken Heart",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter2.md"
-          },
-          {
-            title: "Chapter 3: Broken Way",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter3.md"
-          },
-          {
-            title: "Chapter 4: Broken Drive",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter4.md"
-          },
-          {
-            title: "Chapter 5: The Broken Rules",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter5.md"
-          },
-          {
-            title: "Chapter 6: The Broken Promise",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter6.md"
-          },
-          {
-            title: "Chapter 7: The Broken Story",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter7.md"
-          },
-          {
-            title: "Chapter 8: The Broken Dream",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter8.md"
-          },
-          {
-            title: "Chapter 9: The Broken Past",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter9.md"
-          },
-          {
-            title: "Chapter 10: Broken Choices",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter10.md"
-          },
-          {
-            title: "Chapter 11: Broken Memory",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter11.md"
-          },
-          {
-            title: "Chapter 12: Broken Friend",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter12.md"
-          },
-          {
-            title: "Chapter 13: Broken Soul",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter13.md"
-          },
-          {
-            title: "Chapter 14: Broken Truth",
-            file: "Novel/2BoulevardsofBrokenDream/boulevards_chapter14.md"
-          }
-        ]
-      },
-      {
-        id:3,
-        title: "Being Kind?",
-        date: "30-12-2023",
-        status: "Completed",
-        genre: ["Philosophy","Psychology","Short"],
-        cover: "cover/beingkind-cover.jpg",
-        chapters: [
-          {
-            title: "Chapter 1: Concept of Kindness",
-            file: "Novel/3BeingKind/beingkind_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Forgotten Kindness",
-            file: "Novel/3BeingKind/beingkind_chapter2.md"
-          },
-          {
-            title: "Chapter 3: Lost of Self",
-            file: "Novel/3BeingKind/beingkind_chapter3.md"
-          },
-          {
-            title: "Chapter 4: I Thoutght being Kind is a Gift, instead it's a Curse",
-            file: "Novel/3BeingKind/beingkind_chapter4.md"
-          },
-          {
-            title: "Chapter 5: Kebaikan adalah hal yang menyakitkan",
-            file: "Novel/3BeingKind/beingkind_chapter5.md"
-          },
-          {
-            title: "Chapter 6: Aku lelah menjadi Baik",
-            file: "Novel/3BeingKind/beingkind_chapter6.md"
-          },
-          {
-            title: "Chapter 7: Just because doing samoething good,",
-            file: "Novel/3BeingKind/beingkind_chapter7.md"
-          },
-          {
-            title: "Chapter 8: doesn't mean you Kind",
-            file: "Novel/3BeingKind/beingkind_chapter8.md"
-          },
-          {
-            title: "Chapter 9: Bagi Untuk Orang Lain, Buruk Bagiku",
-            file: "Novel/3BeingKind/beingkind_chapter9.md"
-          },
-          {
-            title: "Chapter 10: Hate and Trust",
-            file: "Novel/3BeingKind/beingkind_chapter10.md"
-          },
-          {
-            title: "Chapter 11: What is good? What is bad?",
-            file: "Novel/3BeingKind/beingkind_chapter11.md"
-          },
-          {
-            title: "Chapter 12: Illusion and Kindness",
-            file: "Novel/3BeingKind/beingkind_chapter12.md"
-          },
-          {
-            title: "The Past",
-            file: "Novel/3BeingKind/beingkind_chapter13.md"
-          },
-          {
-            title: "Note for Readers",
-            file: "Novel/3BeingKind/beingkind_chapter14.md"
-          }
-
-        ]
-      },
-      {
-        id: 4,
-        title: "VAL",
-        date: "01-04-2025",
-        status: "Ongoing",
-        genre: ["Drama","Romance"],
-        cover: "cover/Val-cover.jpg",
-        chapters: [
-          {
-            title: "Chapter 1: PILIHAN YANG SALAH",
-            file: "Novel/4VAL/val_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Kehidupan Sekolah yang Berbeda",
-            file: "Novel/4VAL/val_chapter2.md"
-          },
-          {
-            title: "Chapter 3: Masa Perkuliahan",
-            file: "Novel/4VAL/val_chapter3.md"
-          },
-          {
-            title: "Chapter 4: Double Date",
-            file: "Novel/4VAL/val_chapter4.md"
-          }
-        ]
-      },
-       /*{
-       id: 4,
-        title: "The Last Day",
-        date: "01-04-2025",
-        status: "Completed",
-        genre: ["Belum Tersedia",],
-        chapters: [
-          {
-            title: "Chapter 1: The Beginning of the End",
-            file: "Novel/3novel2_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Facing Reality",
-            file: "Novel/3novel2_chapter2.md"
-          },
-          {
-            title: "Chapter 3: Final Moments",
-            file: "Novel/3novel2_chapter3.md"
-          }
-        ]
-      },*/
-      {
-        id: 5,
-        title: "Hunted by Death",
-        date: "01-04-2024",
-        status: "?",
-        genre: ["Belum Tersedia",],
-        cover: "cover/Hunted-cover.jpg",
-        chapters: [
-          {
-            title: "Chapter 1: The Chase Begins",
-            file: "Novel/3novel3_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Shadows of the Past",
-            file: "Novel/3novel3_chapter2.md"
-          }
-        ]
-      }
-    ];
-
-    let blogs = [
-      {
-        id: 0,
-        title: "Sample Blog",
-        date: "01-01-2023",
-        chapters: [
-          {
-             title: "Short Story",
-            file: "Blog/BlogInformasi/blog7.md"
-          },
-          {
-            title: "Responsivee web",
-            file: "Blog/BlogInformasi/blog6.md"
-          },
-          {
-            title: "Sistem Memory (Oct 11, 2025)",
-            file: "Blog/BlogInformasi/blog5.md"
-          },
-          {
-            title: "Perbaikan Novel/sistem no.1 (Oct 11, 2025)",
-            file: "Blog/BlogInformasi/blog4.md"
-          },
-          {
-            title: "Short Story",
-            file: "Blog/BlogInformasi/blog3.md"
-          },
-          {
-            title: "Update Vers3 (Oct 03, 2025)",
-            file: "Blog/BlogUpdate/3sampleblog.md"
-          },
-          {
-            title:"Sistem Temani Aku (Oct 03, 2025)",
-            file: "Blog/BlogUpdate/4sampleblog.md"
-          },
-          {
-            title: "Novel sampel (Apr 01, 2025)",
-            file: "Blog/BlogInformasi/blog2.md"
-          },
-          {
-            title: "Update Ver 2",
-            file: "Blog/BlogUpdate/2sampleblog.md"
-          },
-          {
-            title: "Novel sampel (Jan 10, 2025)",
-            file: "Blog/BlogInformasi/blog1.md"
-          },
-          {
-            title: "Update Vers 1",
-            file: "Blog/BlogUpdate/1sampleblog.md"
-          },
-        ]
-      }
-    ];
-      
-    let shortstories = [
-    {  
-    id: 1,
-      title: "Every Story Have A Meaning",
-      date: "01-01-2023",
-      status: "Ongoing",
-      genre: ["Drama","Romance","Mistery"],
-      cover: "cover/EveryStory-cover.jpg",
-      chapters: [
-        {
-          title: "Story 1: Dermaga Harapan",
-          file: "Short/EveryStory/1EveryStory.md"
-        },
-        {
-          title: "Story 2: Sakura",
-          file: "Short/EveryStory/2EveryStory.md"
-        },
-        {
-          title: "Story 3: Restoran Milik Kita",
-          file: "Short/EveryStory/3EveryStory.md"
-        },
-        {
-          title: "Story 4: Tak Bersuara",
-          file: "Short/EveryStory/4EveryStory.md"
-        },
-        {
-          title: "Story 5: Hujan di Bulan Juni",
-          file: "Short/EveryStory/5EveryStory.md"
-        }
-      ]
-    },
-    {id: 2,
-      title: "Broken Home",
-      date: "12-02-2025",
-      status: "Ongoing",
-      cover: "cover/Broken-cover.jpg",
-      chapters: [
-        {
-          title: "Arhal",
-          file: "Short/BrokenHome/1Broken.md"
-        },
-        {
-          title: "Jesica",
-          file: "Short/BrokenHome/2Broken.md"
-        },
-        {
-          title: "Akira",
-          file: "Short/BrokenHome/3Broken.md"
-        },
-        {
-          title: "Mora",
-          file: "Short/BrokenHome/4Broken.md"
-        },
-        {
-          title: "Rika",
-          file: "Short/BrokenHome/5Broken.md"
-        },
-        {
-          title: "Rayan",
-          file: "Short/BrokenHome/6Broken.md"
-        },
-        {
-          title: "Note for Readers",
-          file: "Short/BrokenHome/7Note.md"
-        }
-      ]
-    },
-    {id: 3,
-      title: "Bunga Bintang",
-      date: "12-10-2025",
-      status: "Complete",
-      genre: ["Drama","Romance"],
-      cover: "cover/BungaBintang-cover.jpg",
-      chapters: [
-        {
-          title: "Senja",
-          file: "Short/BungaBintang/1BungaBintang.md"
-        },
-        {
-          title: "Hadiah Malam",
-          file: "Short/BungaBintang/2BungaBintang.md"
-        },
-        {
-          title: "Pertemuan yang Disengaja",
-          file: "Short/BungaBintang/3BungaBintang.md"
-        },
-        {
-          title: "Bunga yang Mekar",
-          file: "Short/BungaBintang/4BungaBintang.md"
-        }
-      ]
-    },
-    {id: 4,
-      title: "Monic",
-      date: "13-10-2025",
-      status: "Complete",
-      genre: ["Drama"],
-      cover: "cover/Monic-cover.jpg",
-      chapters: [
-        {title: "Chapter 1",
-          file: "Short/Monic/1chapter.md"
-        },
-        { title: "Chapter 2",
-          file: "Short/Monic/2chapter.md"
-        },
-        {
-          title: "Chapter 3",
-          file: "Short/Monic/3chapter.md"
-        },
-        {
-          title: "Chapter 4",
-          file: "Short/Monic/4chapter.md"
-        },
-        {
-          title: "Chapter 5",
-          file: "Short/Monic/5chapter.md"
-        },
-        {
-          title: "Chapter 6",
-          file: "Short/Monic/6chapter.md"
-        },
-        {title: "Chapter 7",
-          file: "Short/Monic/7chapter.md"
-        },
-        {title: "Chapter 8",
-          file: "Short/Monic/8chapter.md"
-        },
-        {title: "Chapter 9",
-          file: "Short/Monic/9chapter.md"
-        }
-      ]
-    }
-    ];
-
-    let about = [
-      {
-        id: 0,
-        title: "About",
-        date: "01-01-2023",
-        chapters: [
-          {
-            title: "About the Author",
-            file: "About/about.md"
-          }
-        ]
-      }
-    ];
-
-    let currentView = 'novels';
-    let currentData = novels;
-
-    function sortData(data, criterion) {
-      data.sort((a, b) => {
-        if (criterion === 'name') {
-          return a.title.localeCompare(b.title);
-        } else if (criterion === 'latest') {
-          const dateA = a.date ? new Date(a.date.split('-').reverse().join('-')) : new Date(0);
-          const dateB = b.date ? new Date(b.date.split('-').reverse().join('-')) : new Date(0);
-          return dateB - dateA;
-        } else if (criterion === 'oldest') {
-          const dateA = a.date ? new Date(a.date.split('-').reverse().join('-')) : new Date(0);
-          const dateB = b.date ? new Date(b.date.split('-').reverse().join('-')) : new Date(0);
-          return dateA - dateB;
-        }
-      });
-    }
-
-    const sortSelect = document.getElementById('sortSelect');
-    sortSelect.addEventListener('change', () => {
-      sortData(currentData, sortSelect.value);
-      renderGallery();
-    });
-
-    // Initial sort
-    sortData(currentData, 'latest');
-
-    // Improved markdown to HTML converter for basic markdown used here
-    function markdownToHTML(md) {
-      const blocks = md.split(/\n\s*\n/);
-      let html = '';
-
-      blocks.forEach(block => {
-        block = block.trim();
-        if (block === '') return;
-
-        // Handle horizontal rules
-        if (block.match(/^[-*_]{3,}$/)) {
-          html += '<hr>';
-          return;
-        }
-
-        if (block.match(/^#{1,3} /) || block.match(/^\> /)) {
-          // heading or blockquote, process as is
-          const lines = block.split('\n');
-          lines.forEach(line => {
-        let converted = line
-          .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-          .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-          .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-          .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
-          .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-          .replace(/\*(.*)\*/gim, '<em>$1</em>')
-          .replace(/`([^`]+)`/g, '<code>$1</code>')
-          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // links akun
-            html += converted + '<br />';
-          });
-        } else {
-          // paragraph or list
-          const lines = block.split('\n');
-          let paraHtml = '';
-          let inUnorderedList = false;
-          let inOrderedList = false;
-          lines.forEach(line => {
-            if (/^\d+\./.test(line)) {
-              if (!inOrderedList) {
-                paraHtml += '<ol>';
-                inOrderedList = true;
-              }
-              if (inUnorderedList) {
-                paraHtml += '</ul>';
-                inUnorderedList = false;
-              }
-              paraHtml += '<li>' + line.replace(/^\d+\. ?/, '') + '</li>';
-            } else if (/^\- /.test(line)) {
-              if (!inUnorderedList) {
-                paraHtml += '<ul>';
-                inUnorderedList = true;
-              }
-              if (inOrderedList) {
-                paraHtml += '</ol>';
-                inOrderedList = false;
-              }
-              paraHtml += '<li>' + line.replace(/^\- /, '') + '</li>';
-            } else {
-              if (inOrderedList) {
-                paraHtml += '</ol>';
-                inOrderedList = false;
-              }
-              if (inUnorderedList) {
-                paraHtml += '</ul>';
-                inUnorderedList = false;
-              }
-              let converted = line
-                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\*(.*)\*/gim, '<em>$1</em>')
-                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // links akun
-              paraHtml += converted + ' ';
-            }
-          });
-          if (inOrderedList) {
-            paraHtml += '</ol>';
-          }
-          if (inUnorderedList) {
-            paraHtml += '</ul>';
-          }
-          html += '<p>' + paraHtml.trim() + '</p>';
-        }
-      });
-
-      return html.trim();
-    }
-
-    const novelGallery = document.getElementById('novelGallery');
-    const sidebar = document.getElementById('sidebar');
-    const menuBtn = document.getElementById('menuBtn');
-    const backBtn = document.getElementById('backBtn');
-    const chapterList = document.getElementById('chapterList');
-    const reader = document.getElementById('reader');
-    const readerNovelTitle = document.getElementById('readerNovelTitle');
-    const readerChapterTitle = document.getElementById('readerChapterTitle');
-    const chapterContent = document.getElementById('chapterContent');
-    const novelTitle = document.getElementById('novelTitle');
-    const readerBackBtn = document.getElementById('readerBackBtn');
-
-    function updateBackButtons() {
-      const viewName = currentView === 'shortstories' ? 'Short Stories' : currentView.charAt(0).toUpperCase() + currentView.slice(1);
-      backBtn.textContent = `← Back to ${viewName}`;
-      readerBackBtn.textContent = `← Back to ${viewName}`;
-    }
-
-    // Hide sidebar when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!sidebar.contains(e.target) && e.target !== menuBtn) {
-        sidebar.classList.remove('active');
-        menuBtn.style.display = 'block';
-        sidebarShownByHover = false;
-        sidebarShownBySwipe = false;
-      }
-    });
-
-    // Show sidebar on hover left edge (desktop)
-    document.addEventListener('mousemove', (e) => {
-      if (currentNovel) {
-        if (e.clientX < 60 && !sidebar.classList.contains('active')) {
-          sidebar.classList.add('active');
-          sidebarShownByHover = true;
-          menuBtn.style.display = 'none';
-        } else if (e.clientX >= 60 && sidebarShownByHover && !sidebar.contains(e.target)) {
-          sidebar.classList.remove('active');
-          sidebarShownByHover = false;
-          menuBtn.style.display = 'block';
-        }
-      }
-    });
-
-    // Hide sidebar on mouse leave (desktop) only if not in a novel
-    sidebar.addEventListener('mouseleave', () => {
-      if (sidebarShownByHover && !currentNovel) {
-        sidebar.classList.remove('active');
-        sidebarShownByHover = false;
-        menuBtn.style.display = 'block';
-      }
-    });
-
-    // Touch events for swipe right (mobile)
-    document.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      touchInReader = reader.contains(e.touches[0].target);
-    });
-
-    document.addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].clientX;
-      const touchEndY = e.changedTouches[0].clientY;
-      const deltaX = touchEndX - touchStartX;
-      const deltaY = touchEndY - touchStartY;
-      if (currentNovel && Math.abs(deltaX) > Math.abs(deltaY) && deltaX > 100 && touchInReader && !sidebar.classList.contains('active')) {
-        sidebar.classList.add('active');
-        sidebarShownBySwipe = true;
-        menuBtn.style.display = 'none';
-      } else if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX < -100 && sidebar.classList.contains('active')) {
-        sidebar.classList.remove('active');
-        sidebarShownBySwipe = false;
-        menuBtn.style.display = 'block';
-      }
-    });
-
-    // Render novel gallery
-    function renderGallery() {
-      novelGallery.innerHTML = '';
-      if (currentData.length === 0) {
-        const message = currentView === 'shortstories' ? 'No short stories available yet.' : `No ${currentView} available yet.`;
-        novelGallery.innerHTML = `<p>${message}</p>`;
-        return;
-      }
-      if (currentView === 'blogs') {
-        novelGallery.classList.add('blog-view');
-        currentData.forEach((item) => {
-          item.chapters.forEach((chapter) => {
-            const post = document.createElement('div');
-            post.className = 'blog-post';
-            const title = document.createElement('h2');
-            title.textContent = chapter.title;
-            post.appendChild(title);
-            const content = document.createElement('div');
-            content.className = 'blog-content';
-            post.appendChild(content);
-            novelGallery.appendChild(post);
-            // Fetch and render content
-            fetch(chapter.file)
-              .then(response => response.text())
-              .then(md => {
-                content.innerHTML = markdownToHTML(md);
-              })
-              .catch(error => {
-                content.innerHTML = '<p>Error loading content.</p>';
-              });
-          });
-        });
-        novelGallery.style.display = 'block';
-      } else if (currentView === 'about') {
-        novelGallery.classList.add('blog-view');
-        currentData.forEach((item) => {
-          item.chapters.forEach((chapter) => {
-            const post = document.createElement('div');
-            post.className = 'blog-post';
-            const title = document.createElement('h2');
-            title.textContent = chapter.title;
-            post.appendChild(title);
-            const content = document.createElement('div');
-            content.className = 'blog-content';
-            post.appendChild(content);
-            novelGallery.appendChild(post);
-            // Fetch and render content
-            fetch(chapter.file)
-              .then(response => response.text())
-              .then(md => {
-                content.innerHTML = markdownToHTML(md);
-              })
-              .catch(error => {
-                content.innerHTML = '<p>Error loading content.</p>';
-              });
-          });
-        });
-        novelGallery.style.display = 'block';
-      } else {
-        novelGallery.classList.remove('blog-view');
-        currentData.forEach((item, index) => {
-          const card = document.createElement('div');
-          card.className = 'novel-card';
-
-          if (item.cover) {
-            const img = document.createElement('img');
-            img.src = item.cover;
-            img.alt = item.title + ' cover';
-            card.appendChild(img);
-          }
-
-          // Judul
-          const title = document.createElement('div');
-          title.className = 'novel-title';
-          title.textContent = item.title;
-          card.appendChild(title);
-
-          // Date
-          if (item.date) {
-            const date = document.createElement('div');
-            date.className = 'novel-date';
-            date.textContent = item.date;
-            card.appendChild(date);
-          }
-
-          //Status
-          if (item.status) {
-            const status = document.createElement('div');
-            status.className = 'novel-status';
-            status.textContent = item.status;
-            card.appendChild(status);
-          }
-
-          // Genre
-          if (item.genre) {
-            const genre = document.createElement('div');
-            genre.className = 'novel-genre outline-text';
-            genre.textContent = "" + item.genre.join(', ');
-            card.appendChild(genre);
-          }
-
-          //warna novel card
-          if (item.title === "Being Kind?") {
-            card.classList.add('being-kind');
-          }
-
-          card.onclick = () => openNovel(item);
-          novelGallery.appendChild(card);
-
-          // Add slide down animation with stagger
-          setTimeout(() => {
-            card.classList.add('animate-in');
-          }, index * 100);
-        });
-        novelGallery.style.display = 'grid';
-      }
-      reader.classList.remove('active');
-      menuBtn.style.display = 'none';
-      sidebar.classList.remove('active');
-      readerBackBtn.style.display = 'none';
-      sidebarShownByHover = false;
-      sidebarShownBySwipe = false;
-    }
-
-    // Open novel and show chapters in sidebar
-    function openNovel(novel) {
-      currentNovel = novel;
-      novelTitle.textContent = novel.title;
-      chapterList.innerHTML = '';
-      novel.chapters.forEach((chapter, index) => {
-        const button = document.createElement('button');
-        button.textContent = chapter.title;
-        button.onclick = () => openChapter(index);
-        chapterList.appendChild(button);
-      });
-      sidebar.classList.add('active');
-      menuBtn.style.display = 'none';
-      novelGallery.style.display = 'none';
-      reader.classList.add('active');
-      readerBackBtn.style.display = 'block';
-      // Load last read chapter or first chapter
-      const savedChapter = localStorage.getItem(`novel-${novel.id}-chapter`);
-      const startIndex = savedChapter !== null ? parseInt(savedChapter) : 0;
-      openChapter(startIndex);
-      sidebarShownByHover = false;
-      sidebarShownBySwipe = false;
-    }
-
-    // Open chapter and render content
-    function openChapter(index) {
-      if (!currentNovel) return;
-      if (index < 0 || index >= currentNovel.chapters.length) return;
-      const chapter = currentNovel.chapters[index];
-      currentChapterIndex = index;
-      localStorage.setItem(`novel-${currentNovel.id}-chapter`, index);
-      readerNovelTitle.textContent = currentNovel.title;
-      readerChapterTitle.textContent = chapter.title;
-      chapterContent.classList.remove('content-visible');
-      fetch(chapter.file)
-        .then(response => response.text())
-        .then(md => {
-          chapterContent.innerHTML = markdownToHTML(md);
-          chapterContent.classList.add('content-visible');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .catch(error => {
-          chapterContent.innerHTML = '<p>Error loading chapter.</p>';
-        });
-      // Update current chapter highlight
-      const buttons = chapterList.querySelectorAll('button');
-      buttons.forEach((btn, i) => {
-        if (i === index) {
-          btn.classList.add('current-chapter');
-        } else {
-          btn.classList.remove('current-chapter');
-        }
-      });
-      // Hide sidebar when switching chapters
-      sidebar.classList.remove('active');
-      menuBtn.style.display = 'block';
-      sidebarShownByHover = false;
-      sidebarShownBySwipe = false;
-    }
-
-    // Back to novel gallery
-    backBtn.onclick = () => {
-      currentNovel = null;
-      renderGallery();
-      menuBtn.style.display = 'none';
-      readerBackBtn.style.display = 'none';
-      sidebarShownByHover = false;
-      sidebarShownBySwipe = false;
-    };
-
-    // Reader back button
-    readerBackBtn.onclick = () => {
-      currentNovel = null;
-      renderGallery();
-      sidebarShownByHover = false;
-      sidebarShownBySwipe = false;
-    };
-
-    // Add event listeners for view buttons
-    const novelsBtn = document.getElementById('novelsBtn');
-    const blogsBtn = document.getElementById('blogsBtn');
-    const shortstoriesBtn = document.getElementById('shortstoriesBtn');
-
-    novelsBtn.addEventListener('click', () => {
-      currentView = 'novels';
-      currentData = novels;
-      sortData(currentData, sortSelect.value);
-      updateBackButtons();
-      renderGallery();
-    });
-
-    blogsBtn.addEventListener('click', () => {
-      currentView = 'blogs';
-      currentData = blogs;
-      sortData(currentData, sortSelect.value);
-      updateBackButtons();
-      renderGallery();
-    });
-
-    shortstoriesBtn.addEventListener('click', () => {
-      currentView = 'shortstories';
-      currentData = shortstories;
-      sortData(currentData, sortSelect.value);
-      updateBackButtons();
-      renderGallery();
-    });
-
-    const aboutBtn = document.getElementById('aboutBtn');
-    aboutBtn.addEventListener('click', () => {
-      currentView = 'about';
-      currentData = about;
-      sortData(currentData, sortSelect.value);
-      updateBackButtons();
-      renderGallery();
-    });
-
-    // Track current chapter index for navigation
-    let currentChapterIndex = 0;
-    let currentNovel = null;  // Added to fix ReferenceError for currentNovel
-    let touchInReader = false;
-
-    // Previous and Next chapter buttons
-    const prevChapterBtn = document.getElementById('prevChapterBtn');
-    const nextChapterBtn = document.getElementById('nextChapterBtn');
-
-    prevChapterBtn.addEventListener('click', () => {
-      if (!currentNovel) return;
-      if (currentChapterIndex > 0) {
-        openChapter(currentChapterIndex - 1);
-      }
-    });
-
-    nextChapterBtn.addEventListener('click', () => {
-      if (!currentNovel) return;
-      if (currentChapterIndex < currentNovel.chapters.length - 1) {
-        openChapter(currentChapterIndex + 1);
-      }
-    });
-
-    // Toggle sidebar menu
-    menuBtn.onclick = () => {
-      sidebar.classList.toggle('active');
-      if (sidebar.classList.contains('active')) {
-        menuBtn.style.display = 'none';
-      }
-      sidebarShownByHover = false;
-      sidebarShownBySwipe = false;
-    };
-
-    // Initial render
-    renderGallery();
-
-    // Font size control logic
-    const decreaseFontBtn = document.getElementById('decreaseFont');
-    const increaseFontBtn = document.getElementById('increaseFont');
-    let currentFontSize = 16; // default font size in px
-
-    function updateFontSize() {
-      chapterContent.style.fontSize = currentFontSize + 'px';
-      /*const paragraphs = chapterContent.querySelectorAll('p');
-      paragraphs.forEach(p => {
-        p.style.fontSize = currentFontSize + 'px';
-      });*/
-    }
-
-    decreaseFontBtn.addEventListener('click', () => {
-      if (currentFontSize > 10) { // minimum font size
-        currentFontSize -= 2;
-        updateFontSize();
-      }
-    });
-
-    increaseFontBtn.addEventListener('click', () => {
-      if (currentFontSize < 36) { // maximum font size
-        currentFontSize += 2;
-        updateFontSize();
-      }
-    });
-
-    // Track current text alignment, default to 'left'
-    let currentTextAlign = 'left';
-
-    // Update font size after loading chapter content
-    const originalOpenChapter = openChapter;
-    openChapter = function(index) {
-      originalOpenChapter(index);
-      // Delay update to ensure content is loaded
-      setTimeout(() => {
-        updateFontSize();
-        chapterContent.style.textAlign = currentTextAlign; // apply last selected alignment/ingat pilihan align terakhir
-      }, 100);
-    };
-
-    // Text alignment control logic
-    const alignLeftBtn = document.getElementById('alignLeft');
-    const alignCenterBtn = document.getElementById('alignCenter');
-    const alignJustifyBtn = document.getElementById('alignJustify');
-
-    alignLeftBtn.addEventListener('click', () => {
-      chapterContent.style.textAlign = 'left';
-      currentTextAlign = 'left';
-    });
-
-    alignCenterBtn.addEventListener('click', () => {
-      chapterContent.style.textAlign = 'center';
-      currentTextAlign = 'center';
-    });
-
-    alignJustifyBtn.addEventListener('click', () => {
-      chapterContent.style.textAlign = 'justify';
-      currentTextAlign = 'justify';
-    });
-
-    // Hide header on scroll
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', function() {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollTop > lastScrollTop && scrollTop > 100) {
-        document.querySelector('header').classList.add('hidden');
-      } else {
-        document.querySelector('header').classList.remove('hidden');
-      }
-      lastScrollTop = scrollTop;
-    });
-
-    // Dark mode toggle
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    darkModeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      darkModeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-    });
-
-    // Intro animation
-    document.addEventListener('DOMContentLoaded', function() {
-      const header = document.querySelector('header');
-      const footer = document.querySelector('footer');
-      const mainContainer = document.querySelector('.main-container');
-      const darkModeToggle = document.getElementById('darkModeToggle');
-
-      // Initially hide main content and toggle
-      mainContainer.style.opacity = '0';
-      darkModeToggle.style.display = 'none';
-
-      // Letters animate automatically via CSS (slide in from right with stagger)
-
-      // After letters finish animating (2.2s), open doors
-      setTimeout(() => {
-        header.style.transform = 'translateY(-100%)';
-        footer.style.transform = 'translateY(100%)';
-
-        // Reveal main content after doors open (1s transition)
-        setTimeout(() => {
-          mainContainer.style.opacity = '1';
-          darkModeToggle.style.display = 'block';
-          darkModeToggle.style.opacity = '1';
-        }, 1000);
-      }, 2200);
-    });
-
-  </script>
-</body>
-</main>
-
-  <footer>
-    
-    <!--<p><strong>Short Story</strong> dan <strong>Blog</strong> akan kembali ditambahkan dimasa mendatang.</p>-->
-    <!--<div id="visitor-count" style="position: absolute; left: 10px; bottom: 1px">Visitors: </div>-->
-    <!--<p>Semua Novel dibuat dengan dua aplikasi ini</p>
-    <p>Quollwriter dan Litewriter</p>
-    <img src="logo/quollwriter-logo.png" alt="Quollwriter Logo" class="footer-logo">
-    <img src="logo/litewriter-logo.jpg" alt="Litewriter Logo" class="footer-logo">-->
-  </footer>
+.novel-genre {
+  font-size: 0.65em;
+  color: var(--text-color);
+  outline-width: 200px;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
   
-</html>
+}
 
+.outline-text {
+  text-shadow:
+     -1px -1px 0 #ffffff,  
+      1px -1px 0 #ffffff,
+     -1px  1px 0 hsl(0, 0%, 100%),
+      1px  1px 0 #ffffff; 
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 80px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+header {
+    background-color: var(--header-bg);
+    color: white;
+    padding: 0px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    z-index: 1000;
+    transition: transform 1s ease;
+}
+
+.custom-header {
+  display: flex;
+  align-items: center;
+  background: var(--header-bg);
+  border-radius: 20px;
+  padding: 12px 28px;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  color: #fff;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-intro {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  width: auto;
+}
+
+.header-text {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  position: static; /* Hapus position: fixed agar tidak keluar dari flow */
+}
+
+.circle-or {
+  background: #fff;
+  color: #393d40;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 2px;
+  font-size: 2.2rem;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+/* Letter animation styles */
+.letter {
+  display: inline-block;
+  animation: slideInFromCenter 1s ease forwards;
+  opacity: 0;
+  transform: translateX(50vw);
+}
+
+@keyframes slideInFromCenter {
+  0% {
+    transform: translateX(50vw);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.letter:nth-child(1) { animation-delay: 0s; }
+.letter:nth-child(2) { animation-delay: 0.1s; }
+.letter:nth-child(3) { animation-delay: 0.2s; }
+.letter:nth-child(4) { animation-delay: 0.3s; }
+.letter:nth-child(5) { animation-delay: 0.4s; }
+.letter:nth-child(6) { animation-delay: 0.5s; }
+.letter:nth-child(7) { animation-delay: 0.6s; }
+.letter:nth-child(8) { animation-delay: 0.7s; }
+.letter:nth-child(9) { animation-delay: 0.8s; }
+.letter:nth-child(10) { animation-delay: 0.9s; }
+.letter:nth-child(11) { animation-delay: 1.0s; }
+.letter:nth-child(12) { animation-delay: 1.1s; }
+.letter:nth-child(13) { animation-delay: 1.2s; }
+
+.novel-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 10px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  width: 140px;
+  height: 190px;
+  display: block;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  color: white;
+  opacity: 0;
+  z-index: 1;
+}
+
+.novel-card.animate-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.novel-card:hover {
+  transform: scale(1.1) translateY(-10px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  background-color: #555;
+  z-index: 10;
+}
+/*warna custom novel card*/
+.being-kind {
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+}
+.being-kind:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: var(--footer-bg);
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    transition: transform 1s ease;
+}
+
+.novel-card h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+/*sampul cover*/
+.novel-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Reader View */
+.reader {
+  display: none;
+  position: relative;
+}
+
+.reader.active {
+  display: block;
+}
+
+.content {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Chapter Content Halaman baca */
+.chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid var(--border-color);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.chapter-content.content-visible {
+  opacity: 1;
+}
+
+/*Jarak antara paragraf*/
+.chapter-content p {
+  margin-bottom: 0.5em;
+}
+
+.chapter-content h1,
+.chapter-content h2,
+.chapter-content h3,
+.chapter-content blockquote {
+  margin-bottom: 0.5em;
+}
+
+.chapter-content blockquote {
+  font-size: inherit;
+  color: #ffffff;
+  padding: 0.5em 1em;
+  border-left: 3px solid var(--border-color);
+  background-color: #555151;
+  border-radius: 10px;
+}
+
+/* Tombol Navigasi kembali dan ukuran font */
+/* Font control buttons */
+.font-controls {
+  margin: 10px 0;
+  text-align: right;
+  /*position: fixed;
+  top: 105px;
+  right: 20px;*/
+}
+
+/* Tombol berpindah chapter, Previous-Next*/
+.chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+}
+.nav-btn {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+.font-btn {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.font-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+/* Main container for boundaries */
+.main-container {
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: margin-left 0.3s;
+}
+
+/* View controls buttons */
+.view-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.view-controls button {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.view-controls button:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-5px);
+}
+
+.view-controls button:active {
+  transform: translateY(0);
+}
+
+
+
+/* Sliding Menu */
+.menu-btn {
+  position: fixed;
+  top: 10px;
+  left: -100px;
+  background: var(--sidebar-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 10px;
+  cursor: swipe;
+  z-index: 1000;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -337px;
+  width: 300px;
+  height: 100%;
+  background: var(--sidebar-bg);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+  transition: left 0.3s;
+  padding: 20px;
+  overflow-y: auto;
+  z-index: 1001;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.chapter-list {
+  list-style: none;
+  padding: 0;
+}
+
+.chapter-list button {
+  padding: 10px 0;
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.chapter-list button:hover {
+  background: #f9f9f9;
+}
+
+.chapter-list button.current-chapter {
+  background-color: #333;
+  color: white;
+}
+
+.back-btn {
+  background: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+/* tombol kembali ke Novel */
+.reader-back-btn {
+  background: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+/* Blog display styles */
+.gallery.blog-view {
+  display: block;
+}
+
+.blog-post {
+  margin-bottom: 2em;
+  padding: 1em;
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-post h2 {
+  margin-top: 0;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5em;
+}
+
+.blog-content {
+  line-height: 1.6;
+  text-align: left;
+}
+
+.blog-content p {
+  margin-bottom: 0.5em;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content blockquote {
+  margin-bottom: 0.5em;
+}
+
+.blog-content blockquote {
+  font-size: inherit;
+  color: #ffffff;
+  padding: 0.5em 1em;
+  border-left: 3px solid var(--border-color);
+  background-color: #555151;
+  border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1280px) {
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 23.8px;
+}
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* Tablet responsiveness */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .novel-card {
+    width: 160px;
+    height: 210px;
+  }
+
+  .sidebar {
+    width: 280px;
+  }
+
+  .content {
+    max-width: 700px;
+  }
+
+  .custom-header {
+    font-size: 2rem;
+    padding: 10px 24px;
+  }
+
+  .circle-or {
+    width: 44px;
+    height: 44px;
+    font-size: 2rem;
+  }
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 767px) {
+  .custom-header {
+    font-size: 1.5rem;
+    padding: 8px 20px;
+  }
+
+  .circle-or {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px 10px;
+  }
+
+  .novel-card {
+    width: 130px;
+    height: 170px;
+  }
+
+  .content {
+    padding: 15px;
+    max-width: none;
+  }
+
+  .view-controls button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .font-controls {
+    text-align: center;
+  }
+
+  .chapter-nav {
+    bottom: 10px;
+  }
+}
+
+.chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+}
+
+
+@media (max-width: 960px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 30px 40px;
+    transform: translateY(-5px);
+  }
+  .sidebar {
+    width: 250px;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+  .chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+}
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.view-control button {
+  transform: translateY(-5px);
+}
+}
+
+@media (max-width: 766px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 25px 10px;
+  }
+
+  .novel-card {
+    padding: 15px 10px;
+    font-size: 18px;
+    min-height: 100px;
+  }
+
+  .content {
+    padding: 20px;
+    border-left: 2px solid var(--border-color);
+    border-right: 2px solid var(--border-color);
+  }
+
+  .sidebar {
+    width: 200px;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+
+  .sidebar.active ~ .main-container {
+    margin-left: 0%; /* untuk mempertahankan teks saat sidebar dibuka */
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 28px;
+  }
+
+  .novel-genre {
+  font-size: 0.85em;
+  color: var(--text-color);
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+}
+@media (max-width: 720px) {
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 40px 30px;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    box-sizing: border-box;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 15px;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .novel-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 10px 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    width: 140px;
+    height: 190px;
+    display: block;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+    color: white;
+    transform: translateY(50px);
+    opacity: 0;
+    z-index: 1;
+  }
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+  .novel-genre {
+    font-size: 0.65em;
+    color: var(--text-color);
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .novel-date {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.6em;
+  color: var(--border-color);
+}
+  .novel-status {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.6em;
+  color: var(--border-color);
+}
+
+
+  .content {
+    padding: 55px;
+    max-width: none;
+    border-left: 1px solid var(--border-color);
+    border-right: 2px solid var(--border-color);
+  }
+
+  .chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  }
+
+  .sidebar {
+    width: 40%;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar.active ~ .main-container {
+    margin-left: 0%; /* untuk mempertahankan teks saat sidebar dibuka */
+  }
+
+  header {
+    padding: 5px 0;
+    position: fixed;
+    
+  }
+
+
+
+  .menu-btn {
+    background: var(--sidebar-bg);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: click;
+    margin-bottom: 20px;
+  }
+
+  .reader-back-btn {
+  background: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  }
+
+  /*pindah chapter*/
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 59px;
+}
+
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/*.footer-logo {
+  width: 50px;
+  position: sticky;
+  left: 0;
+  float: inline-side;
+  height: auto;
+  display: row;
+  margin: 10px 100px;*/
+
+.being-kind {
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+}
+.being-kind:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+
+}
+@media (max-width: 640px) {
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 63px;
+}
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+}
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+@media (max-width: 620px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+  }
+
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 60.8px;
+}
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+}
+
+@media (max-width: 600px) {
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    box-sizing: border-box;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 15px;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+  .novel-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  width: 140px;
+  height: 190px;
+  display: block;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  color: white;
+  transform: translateY(50px);
+  opacity: 0;
+  z-index: 1;
+  }
+}
+
+@media (max-width: 540px) {
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 56px;
+  }
+}
+
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+@media (max-width: 520px) {
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 61.5px;
+}
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+  }
+
+  .novel-genre {
+  font-size: 0.65em;
+    color: var(--text-color);
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+  .novel-card {
+    padding: 10px 5px;
+    font-size: 14px;
+    min-height: 80px;
+  }
+
+  .content {
+    padding: 10px;
+    border-left: 5px solid var(--border-color);
+    border-right: 5px solid var(--border-color);
+  }
+  .sidebar {
+    width: 60%;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+  .sidebar.active ~ .main-container {
+    margin-left: 0%; /* untuk mempertahankan tesk saat sidebar dibuka */
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 24px;
+  }
+  .menu-btn {
+   background: var(--btn-bg);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: click;
+    margin-bottom: 20px;
+  }
+
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+}
+.chapter-content {
+  line-height: 1.6;
+  text-align: left;
+  border-bottom: 50px solid #ccc;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Hide header on scroll */
+header.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+}
+@media (max-width: 414px) {
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+}
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 412px) {
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+}
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+    max-width:1000px;
+  }
+
+  .novel-card {
+    padding: 10px 5px;
+    font-size: 14px;
+    min-height: 80px;
+    width: 120px;
+    height: 160px;
+  }
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+}
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+
+.novel-card.animate-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+  /* View controls buttons */
+.view-controls {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 20px 0;
+}
+
+.view-controls button {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+}
+
+@media (max-width: 360px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+    max-width:1000px;
+  }
+
+  .novel-card {
+    padding: 10px 5px;
+    font-size: 14px;
+    min-height: 80px;
+    width: 119px;
+    height: 150px;
+  }
+  .chapter-nav {
+  margin: 10px 0;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+}
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+
+  .view-controls button {
+    padding: 4px 13px;
+    font-size: 14px;
+  }
+}
+
+.font-btn {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.font-btn:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-1px);
+}
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+}

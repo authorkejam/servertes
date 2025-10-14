@@ -19,7 +19,8 @@
 <main>
 <body>
 
-  <header>
+  <!-- Header untuk animasi pintu -->
+  <header class="intro-header">
     <div class="custom-header">
       <span class="letter circle-a">A</span>
       <span class="letter">U</span>
@@ -34,7 +35,24 @@
       <span class="letter">E</span>
       <span class="letter">L</span>
     </div>
-    
+  </header>
+
+  <!-- Header normal -->
+  <header class="normal-header">
+    <div class="custom-header">
+      <span class="letter circle-a">A</span>
+      <span class="letter">U</span>
+      <span class="letter">T</span>
+      <span class="letter">H</span>
+      <span class="letter circle-or">O</span>
+      <span class="letter circle-or">R</span>
+      <span class="letter space">&nbsp;</span>
+      <span class="letter">N</span>
+      <span class="letter">O</span>
+      <span class="letter">V</span>
+      <span class="letter">E</span>
+      <span class="letter">L</span>
+    </div>
   </header>
   <button class="menu-btn" id="menuBtn">☰</button>
 
@@ -1138,8 +1156,10 @@
 
     // Intro animation
     document.addEventListener('DOMContentLoaded', function() {
-      const header = document.querySelector('header');
-      const footer = document.querySelector('footer');
+      const introHeader = document.querySelector('.intro-header');
+      const introFooter = document.querySelector('.intro-footer');
+      const normalHeader = document.querySelector('.normal-header');
+      const normalFooter = document.querySelector('.normal-footer');
       const mainContainer = document.querySelector('.main-container');
       const darkModeToggle = document.getElementById('darkModeToggle');
 
@@ -1151,13 +1171,15 @@
 
       // After letters finish animating (2.2s), open doors and reveal content immediately
       setTimeout(() => {
-        header.style.transform = 'translateY(-100%)';
-        footer.style.transform = 'translateY(100%)';
+        introHeader.style.transform = 'translateY(-100%)';
+        introFooter.style.transform = 'translateY(100%)';
 
-        // Reveal main content immediately after doors start opening
+        // Reveal main content and normal header/footer
         mainContainer.style.opacity = '1';
         darkModeToggle.style.display = 'block';
         darkModeToggle.style.opacity = '1';
+        normalHeader.style.display = 'block';
+        normalFooter.style.display = 'block';
       }, 2200);
     });
 
@@ -1165,14 +1187,14 @@
 </body>
 </main>
 
-  <footer>
-    
-    <!--<p><strong>Short Story</strong> dan <strong>Blog</strong> akan kembali ditambahkan dimasa mendatang.</p>-->
-    <!--<div id="visitor-count" style="position: absolute; left: 10px; bottom: 1px">Visitors: </div>-->
-    <!--<p>Semua Novel dibuat dengan dua aplikasi ini</p>
-    <p>Quollwriter dan Litewriter</p>
-    <img src="logo/quollwriter-logo.png" alt="Quollwriter Logo" class="footer-logo">
-    <img src="logo/litewriter-logo.jpg" alt="Litewriter Logo" class="footer-logo">-->
+  <!-- Footer untuk animasi pintu -->
+  <footer class="intro-footer">
+
+  </footer>
+
+  <!-- Footer normal -->
+  <footer class="normal-footer">
+  <p><h2>&copy; 2025 Author Kejam Blog. All rights reserved.</h2></p>
   </footer>
   
 </html>

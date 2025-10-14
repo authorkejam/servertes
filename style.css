@@ -135,7 +135,8 @@ body {
     color: var(--text-color);
 }
 
-header {
+/* Intro header for door animation */
+.intro-header {
     background-color: var(--header-bg);
     color: white;
     padding: 0px;
@@ -147,6 +148,42 @@ header {
     height: 50vh;
     z-index: 1001;
     transition: transform 1s ease;
+}
+
+/* Normal header after animation */
+.normal-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: var(--header-bg);
+    z-index: 1000;
+    display: none;
+}
+
+.normal-header .custom-header {
+    top: 50%;
+    font-size: 1.5rem;
+    padding: 8px 16px;
+}
+
+.normal-header .circle-or {
+    width: 32px;
+    height: 32px;
+    font-size: 1.5rem;
+}
+
+/* Normal footer after animation */
+.normal-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: var(--footer-bg);
+    z-index: 1000;
+    display: none;
 }
 
 .custom-header {
@@ -950,16 +987,6 @@ header.hidden {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
-}
-#darkModeToggle {
-  position: absolute;
-  right: 20px;
-  top: 30px;
-  background: rgb(57, 57, 57);
-  border-radius: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  color: var(--text-color);
 }
 
 @media (max-width: 620px) {

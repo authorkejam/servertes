@@ -873,6 +873,33 @@
         </div>
       </section>
       `;
+                  // Handle contact form submission
+                  const contactForm = content.querySelector('#contactForm');
+                  if (contactForm) {
+                    contactForm.addEventListener('submit', function(event) {
+                      event.preventDefault();
+
+                      const formData = {
+                        from_name: contactForm.querySelector('#contactName').value,
+                        from_email: contactForm.querySelector('#contactEmail').value,
+                        message: contactForm.querySelector('#contactMessage').value,
+                        to_email: 'authornovel527@gmail.com'
+                      };
+
+                      emailjs.send('service_wzui09b', 'template_lkfaf4l', formData)
+                        .then(function(response) {
+                          const successMessage = content.querySelector('#successMessage');
+                          successMessage.style.display = 'block';
+                          contactForm.reset();
+                          setTimeout(() => {
+                            successMessage.style.display = 'none';
+                          }, 3000);
+                        }, function(error) {
+                          alert('Failed to send email. Please try again.');
+                          console.error('EmailJS error:', error);
+                        });
+                    });
+                  }
                 }
               })
               .catch(error => {
@@ -914,6 +941,33 @@
         </div>
       </section>
       `;
+                  // Handle contact form submission
+                  const contactForm = content.querySelector('#contactForm');
+                  if (contactForm) {
+                    contactForm.addEventListener('submit', function(event) {
+                      event.preventDefault();
+
+                      const formData = {
+                        from_name: contactForm.querySelector('#contactName').value,
+                        from_email: contactForm.querySelector('#contactEmail').value,
+                        message: contactForm.querySelector('#contactMessage').value,
+                        to_email: 'authornovel527@gmail.com'
+                      };
+
+                      emailjs.send('service_wzui09b', 'template_lkfaf4l', formData)
+                        .then(function(response) {
+                          const successMessage = content.querySelector('#successMessage');
+                          successMessage.style.display = 'block';
+                          contactForm.reset();
+                          setTimeout(() => {
+                            successMessage.style.display = 'none';
+                          }, 3000);
+                        }, function(error) {
+                          alert('Failed to send email. Please try again.');
+                          console.error('EmailJS error:', error);
+                        });
+                    });
+                  }
                 }
               })
               .catch(error => {
@@ -1255,33 +1309,7 @@
         normalFooter.style.display = 'block';
       }, 2200);
 
-      // Handle contact form submission
-      const contactForm = document.getElementById('contactForm');
-      if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
-          event.preventDefault();
 
-          const formData = {
-            from_name: document.getElementById('contactName').value,
-            from_email: document.getElementById('contactEmail').value,
-            message: document.getElementById('contactMessage').value,
-            to_email: 'authornovel527@gmail.com'
-          };
-
-          emailjs.send('service_wzui09b', 'template_lkfaf4l', formData)
-            .then(function(response) {
-              const successMessage = document.getElementById('successMessage');
-              successMessage.style.display = 'block';
-              contactForm.reset();
-              setTimeout(() => {
-                successMessage.style.display = 'none';
-              }, 3000);
-            }, function(error) {
-              alert('Failed to send email. Please try again.');
-              console.error('EmailJS error:', error);
-            });
-        });
-      }
     });
 
   </script>

@@ -879,10 +879,14 @@
                     contactForm.addEventListener('submit', function(event) {
                       event.preventDefault();
 
+                      const name = contactForm.querySelector('#contactName').value;
+                      const email = contactForm.querySelector('#contactEmail').value;
+                      const msg = contactForm.querySelector('#contactMessage').value;
+
                       const formData = {
-                        from_name: contactForm.querySelector('#contactName').value,
-                        from_email: contactForm.querySelector('#contactEmail').value,
-                        message: contactForm.querySelector('#contactMessage').value,
+                        from_name: name,
+                        from_email: email,
+                        message: `Name: ${name}\n\n${msg}`,
                         to_email: 'authornovel527@gmail.com'
                       };
 

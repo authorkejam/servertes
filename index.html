@@ -860,18 +860,19 @@
                 content.innerHTML = markdownToHTML(md);
                 if (chapter.title === "About the Author") {
                   content.innerHTML += `
-          <section id="contact">
-            <h2>Contact</h2>
-            <div class="form-container">
-              <form id="contactForm">
-                <input type="text" id="contactName" name="name" placeholder="Your Name" required autocomplete="name">
-                <input type="email" id="contactEmail" name="email" placeholder="Your Email" required autocomplete="email">
-                <textarea id="contactMessage" name="message" rows="5" placeholder="Tell me what you want" required autocomplete="message"></textarea>
-                <button type="submit">Send Message</button>
-              </form>
-            </div>
-          </section>
-          `;
+      <section id="contact">
+        <h2>Contact</h2>
+        <div class="form-container">
+          <form id="contactForm">
+            <input type="text" id="contactName" name="name" placeholder="Your Name" required autocomplete="name">
+            <input type="email" id="contactEmail" name="email" placeholder="Your Email" required autocomplete="email">
+            <textarea id="contactMessage" name="message" rows="5" placeholder="Tell me what you want" required autocomplete="message"></textarea>
+            <button type="submit">Send Message</button>
+            <div id="successMessage" class="success-message" style="display: none;">Email sent successfully!</div>
+          </form>
+        </div>
+      </section>
+      `;
                 }
               })
               .catch(error => {
@@ -908,6 +909,7 @@
             <input type="email" id="contactEmail" name="email" placeholder="Your Email" required autocomplete="email">
             <textarea id="contactMessage" name="message" rows="5" placeholder="Tell me what you want" required autocomplete="message"></textarea>
             <button type="submit">Send Message</button>
+            <div id="successMessage" class="success-message" style="display: none;">Email sent successfully!</div>
           </form>
         </div>
       </section>
@@ -1268,8 +1270,12 @@
 
           emailjs.send('service_wzui09b', 'template_lkfaf4l', formData)
             .then(function(response) {
-              alert('Email sent successfully!');
+              const successMessage = document.getElementById('successMessage');
+              successMessage.style.display = 'block';
               contactForm.reset();
+              setTimeout(() => {
+                successMessage.style.display = 'none';
+              }, 3000);
             }, function(error) {
               alert('Failed to send email. Please try again.');
               console.error('EmailJS error:', error);

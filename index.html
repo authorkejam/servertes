@@ -10,6 +10,7 @@
   <meta property="og:description" content="Baca novel online, gratis selamanya" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.13/lottie.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <meta property="og:title" content="Author Novel" />
   <meta property="og:description" content="Baca novel online, gratis selamanya" />
   <meta property="og:image" content="https://authorkejam.github.io/authornovel/weblogo.png" />
@@ -107,7 +108,7 @@
       {
         id: 0,
         title: "TUTORIAL PENGGUNAAN",
-        date: "10-10-2025",
+        date: "00-10-2025",
         genre: ["Baca dulu, ini mungkin membantu"],
         chapters: [
           {
@@ -366,27 +367,6 @@
           }
         ]
       },
-       /*{
-       id: 4,
-        title: "The Last Day",
-        date: "01-04-2025",
-        status: "Completed",
-        genre: ["Belum Tersedia",],
-        chapters: [
-          {
-            title: "Chapter 1: The Beginning of the End",
-            file: "Novel/3novel2_chapter1.md"
-          },
-          {
-            title: "Chapter 2: Facing Reality",
-            file: "Novel/3novel2_chapter2.md"
-          },
-          {
-            title: "Chapter 3: Final Moments",
-            file: "Novel/3novel2_chapter3.md"
-          }
-        ]
-      },*/
       {
         id: 5,
         title: "Hunted by Death",
@@ -404,6 +384,55 @@
             file: "Novel/3novel3_chapter2.md"
           }
         ]
+      },
+      {
+        id: 6,
+        title: "Pacarku Seorang Yakuza",
+        date: "17-10-2025",
+        status: "Complete",
+        genre: ["Mafia", "Romance", "Drama",],
+        cover: "cover/Yakuza-cover.jpg",
+        chapters: [
+          {title: "Bab 1: Pembuka",
+            file: "Novel/6Yakuza/1yakuza.md"
+          },
+          {
+            title: "Bab 2: Bayangan yang Mengendap",
+            file: "Novel/6Yakuza/2yakuza.md"
+          },
+          {
+            title: "Bab 3: Retakan Pertama",
+            file: "Novel/6Yakuza/3yakuza.md"
+          },
+          {
+            title: "Bab 4: Garis yang Kabur",
+            file: "Novel/6Yakuza/4yakuza.md"
+          },
+          {
+            title: "Bab 5: Mata yang Mengintai",
+            file: "Novel/6Yakuza/5yakuza.md"
+          },
+          {
+            title: "Bab 6: Tembok yang Runtuh",
+            file: "Novel/6Yakuza/6yakuza.md"
+          },
+          {
+            title: "Bab 7: Perang Dimulai",
+            file: "Novel/6Yakuza/7yakuza.md"
+          },
+          {
+            title: "Bab 8: Jejak Bayangan",
+            file: "Novel/6Yakuza/8yakuza.md"
+          },
+          {
+            title: "Bab 9: Pertarungan Bayangan",
+            file: "Novel/6Yakuza/9yakuza.md"
+          },
+          {
+            title: "Bab 10: Lenyap dalam Ingatan",
+            file: "Novel/6Yakuza/10yakuza.md"
+          }
+        ]
       }
     ];
 
@@ -413,6 +442,10 @@
         title: "Sample Blog",
         date: "01-01-2023",
         chapters: [
+          {
+            title: "Update Animasi",
+            file: "Blog/BlogUpdate/5sampleblog.md"
+          },
           {
              title: "Short Story",
             file: "Blog/BlogInformasi/blog7.md"
@@ -460,7 +493,8 @@
         ]
       }
     ];
-      
+    
+    //Batas Novel, dibawah Short Story  
     let shortstories = [
     {  
     id: 1,
@@ -824,6 +858,21 @@
               .then(response => response.text())
               .then(md => {
                 content.innerHTML = markdownToHTML(md);
+                if (chapter.title === "About the Author") {
+                  content.innerHTML += `
+          <section id="contact">
+            <h2>Contact</h2>
+            <div class="form-container">
+              <form id="contactForm">
+                <input type="text" id="contactName" name="name" placeholder="Your Name" required autocomplete="name">
+                <input type="email" id="contactEmail" name="email" placeholder="Your Email" required autocomplete="email">
+                <textarea id="contactMessage" name="message" rows="5" placeholder="Tell me what you want" required autocomplete="message"></textarea>
+                <button type="submit">Send Message</button>
+              </form>
+            </div>
+          </section>
+          `;
+                }
               })
               .catch(error => {
                 content.innerHTML = '<p>Error loading content.</p>';
@@ -849,6 +898,21 @@
               .then(response => response.text())
               .then(md => {
                 content.innerHTML = markdownToHTML(md);
+                if (chapter.title === "About the Author") {
+                  content.innerHTML += `
+      <section id="contact">
+        <h2>Contact</h2>
+        <div class="form-container">
+          <form id="contactForm">
+            <input type="text" id="contactName" name="name" placeholder="Your Name" required autocomplete="name">
+            <input type="email" id="contactEmail" name="email" placeholder="Your Email" required autocomplete="email">
+            <textarea id="contactMessage" name="message" rows="5" placeholder="Tell me what you want" required autocomplete="message"></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </section>
+      `;
+                }
               })
               .catch(error => {
                 content.innerHTML = '<p>Error loading content.</p>';
@@ -1135,14 +1199,16 @@
       currentTextAlign = 'justify';
     });
 
-    // Hide header on scroll
+    // Hide header and footer on scroll
     let lastScrollTop = 0;
     window.addEventListener('scroll', function() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollTop > lastScrollTop && scrollTop > 100) {
-        document.querySelector('header').classList.add('hidden');
+        document.querySelector('.normal-header').classList.add('hidden');
+        document.querySelector('.normal-footer').classList.add('hidden');
       } else {
-        document.querySelector('header').classList.remove('hidden');
+        document.querySelector('.normal-header').classList.remove('hidden');
+        document.querySelector('.normal-footer').classList.remove('hidden');
       }
       lastScrollTop = scrollTop;
     });
@@ -1153,6 +1219,11 @@
       document.body.classList.toggle('dark');
       darkModeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
     });
+
+    // Initialize EmailJS
+    (function() {
+      emailjs.init('CO6VRBoSShUVckhuJ');
+    })();
 
     // Intro animation
     document.addEventListener('DOMContentLoaded', function() {
@@ -1181,6 +1252,30 @@
         normalHeader.style.display = 'block';
         normalFooter.style.display = 'block';
       }, 2200);
+
+      // Handle contact form submission
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          const formData = {
+            from_name: document.getElementById('contactName').value,
+            from_email: document.getElementById('contactEmail').value,
+            message: document.getElementById('contactMessage').value,
+            to_email: 'authornovel527@gmail.com'
+          };
+
+          emailjs.send('service_wzui09b', 'template_lkfaf4l', formData)
+            .then(function(response) {
+              alert('Email sent successfully!');
+              contactForm.reset();
+            }, function(error) {
+              alert('Failed to send email. Please try again.');
+              console.error('EmailJS error:', error);
+            });
+        });
+      }
     });
 
   </script>
@@ -1194,7 +1289,7 @@
 
   <!-- Footer normal -->
   <footer class="normal-footer">
-  <p><h2>&copy; 2025 Author Kejam Blog. All rights reserved.</h2></p>
+  <p><h3>&copy;2025 Author Kejam Blog. All rights reserved.</h3></p>
   </footer>
   
 </html>

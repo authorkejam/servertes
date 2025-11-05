@@ -827,31 +827,113 @@ footer {
 }
 
 /* Responsive Design */
-
-/* Tablet Styles (769px to 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
-  body {
-    padding-top: 70px;
+@media (max-width: 1280px) {
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 23.8px;
+  }
+  /* Hide header on scroll */
+  header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
   }
 
-  .normal-header {
-    height: 65px;
+  /* Mobile responsiveness improvements */
+  @media (max-width: 767px) {
+    .normal-header {
+      height: 60px;
+    }
+
+    .normal-header .custom-header {
+      font-size: 1.2rem;
+      padding: 6px 16px;
+    }
+
+    .normal-header .circle-or {
+      width: 28px;
+      height: 28px;
+      font-size: 1.2rem;
+    }
+
+    .normal-footer {
+      position: absolute;
+      bottom: auto;
+      height: auto;
+      padding: 20px 0;
+    }
+
+    body {
+      padding-bottom: 80px;
+    }
+
+    .custom-header {
+      font-size: 1.5rem;
+      padding: 8px 20px;
+    }
+
+    .circle-or {
+      width: 36px;
+      height: 36px;
+      font-size: 1.5rem;
+    }
+
+    .sidebar {
+      width: 100%;
+    }
+
+    .gallery {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      padding: 20px 20px;
+    }
+
+    .novel-card {
+      width: 150px;
+      height: 190px;
+    }
+
+    .content {
+      padding: 15px;
+      max-width: none;
+    }
+
+    .view-controls button {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .font-controls {
+      text-align: center;
+    }
+
+    .chapter-nav {
+      bottom: 10px;
+    }
   }
 
-  .custom-header {
-    font-size: 1.8rem;
-    padding: 10px 20px;
+  .chapter-content {
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
+}
 
+/* Tablet responsiveness */
+@media (min-width: 768px) and (max-width: 1024px) {
   .gallery {
-    padding: 30px 15px;
-    gap: 15px;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
   }
 
   .novel-card {
-    width: 130px;
-    height: 175px;
+    width: 160px;
+    height: 210px;
   }
 
   .sidebar {
@@ -859,205 +941,374 @@ footer {
   }
 
   .content {
-    padding: 15px;
     max-width: 700px;
   }
 
-  .chapter-nav {
-    bottom: 15px;
+  .custom-header {
+    font-size: 2rem;
+    padding: 10px 24px;
   }
 
-  .view-controls {
-    gap: 8px;
-  }
-
-  .view-controls button {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-
-  .font-controls {
-    margin: 8px 0;
-  }
-
-  .font-btn {
-    padding: 5px 10px;
-    font-size: 14px;
-  }
-
-  .nav-btn {
-    padding: 5px 10px;
-    font-size: 14px;
+  .circle-or {
+    width: 44px;
+    height: 44px;
+    font-size: 2rem;
   }
 }
 
-/* Mobile Styles (up to 768px) */
-@media (max-width: 768px) {
-  body {
-    padding-top: 60px;
-    padding-bottom: 60px;
-  }
-
-  .normal-header {
-    height: 60px;
-  }
-
-  .custom-header {
-    font-size: 1.2rem;
-    padding: 6px 12px;
-    letter-spacing: 1px;
-  }
-
+@media (max-width: 960px) {
   .gallery {
-    padding: 20px 10px;
-    gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 30px 40px;
+    transform: translateY(-5px);
+  }
+  .sidebar {
+    width: 250px;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+  .chapter-content {
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+  }
+  /* Hide header on scroll */
+  header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  .view-control button {
+    transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 766px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 25px 10px;
   }
 
   .novel-card {
-    width: 110px;
-    height: 150px;
+    padding: 15px 10px;
+    font-size: 18px;
+    min-height: 100px;
   }
 
-  .novel-card h3 {
-    font-size: 16px;
-  }
-
-  .novel-title {
-    font-size: 0.9em;
-    padding: 2px 4px;
-  }
-
-  .novel-date,
-  .novel-status {
-    font-size: 0.5em;
-    top: 3px;
-    left: 3px;
-  }
-
-  .novel-status {
-    right: 3px;
-  }
-
-  .novel-genre {
-    font-size: 0.55em;
-    bottom: 3px;
+  .content {
+    padding: 20px;
+    border-left: 2px solid var(--border-color);
+    border-right: 2px solid var(--border-color);
   }
 
   .sidebar {
-    width: 100%;
+    width: 200px;
     left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+
+  .sidebar.active ~ .main-container {
+    margin-left: 0%; /* untuk mempertahankan teks saat sidebar dibuka */
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 28px;
+  }
+  .novel-genre {
+    font-size: 0.85em;
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+}
+@media (max-width: 720px) {
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 40px 30px;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    box-sizing: border-box;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 15px;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .novel-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 10px 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    width: 140px;
+    height: 190px;
+    display: block;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    color: white;
+    transform: translateY(50px);
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .novel-genre {
+    font-size: 0.65em;
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .novel-date {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 0.6em;
+    color: var(--border-color);
+  }
+  .novel-status {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.6em;
+    color: var(--border-color);
+  }
+
+  .content {
+    padding: 55px;
+    max-width: none;
+    border-left: 1px solid var(--border-color);
+    border-right: 2px solid var(--border-color);
+  }
+
+  .chapter-content {
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .sidebar {
+    width: 40%;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
   }
 
   .sidebar.active {
     left: 0;
   }
 
+  .sidebar.active ~ .main-container {
+    margin-left: 0%; /* untuk mempertahankan teks saat sidebar dibuka */
+  }
+
+  header {
+    padding: 5px 0;
+    position: fixed;
+  }
+
   .menu-btn {
-    left: 10px;
+    background: var(--sidebar-bg);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: click;
+    margin-bottom: 20px;
   }
 
-  #darkModeToggle {
-    top: 15px;
-    right: 15px;
-    width: 45px;
-    height: 45px;
-    padding: 8px;
+  .reader-back-btn {
+    background: var(--btn-bg);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-radius: 4px;
   }
 
-  .intro-header,
-  footer {
-    height: 35vh;
+  /*pindah chapter*/
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 59px;
   }
 
-  .content {
-    padding: 10px;
-    max-width: 100%;
-    border-left: none;
-    border-right: none;
+  /* Hide header on scroll */
+  header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
   }
 
+  /*.footer-logo {
+  width: 50px;
+  position: sticky;
+  left: 0;
+  float: inline-side;
+  height: auto;
+  display: row;
+  margin: 10px 100px;*/
+
+  .being-kind {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+  }
+  .being-kind:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+  @media (max-width: 640px) {
+    .chapter-nav {
+      margin: 10px 0;
+      text-align: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 63px;
+    }
+    /* Hide header on scroll */
+    header.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
   .chapter-content {
-    font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
   }
 
   .chapter-nav {
-    bottom: 10px;
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    bottom: 60.8px;
   }
-
-  .nav-btn {
-    padding: 5px 8px;
-    font-size: 14px;
-    margin: 0 3px;
+  /* Hide header on scroll */
+  header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
   }
-
-  .font-controls {
-    text-align: center;
-    margin: 10px 0;
-  }
-
-  .font-btn {
-    padding: 5px 8px;
-    font-size: 14px;
-    margin-left: 3px;
-  }
-
-  .view-controls {
-    flex-direction: column;
-    gap: 8px;
-    margin: 15px 0;
-  }
-
-  .view-controls button {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-
-  .blog-post {
-    padding: 0.8em;
-    margin-bottom: 1.5em;
-  }
-
-  .blog-post h2 {
-    font-size: 1.2em;
-  }
-
-  .blog-content {
-    font-size: 14px;
-  }
-
-  .footer-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 5px;
-  }
-
-  .footer-logo {
-    order: 1;
-    margin-right: 0;
-  }
-
-  .social-logos {
-    order: 2;
-  }
-
-  .footer-content p {
-    order: 3;
-    font-size: 12px;
-  }
-
-  .main-container {
-    padding-left: 5px;
-    padding-right: 5px;
+  .chapter-content {
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
 }
 
+@media (max-width: 600px) {
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    box-sizing: border-box;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 15px;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 
+  .novel-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    width: 140px;
+    height: 190px;
+    display: block;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    color: white;
+    transform: translateY(50px);
+    opacity: 0;
+    z-index: 1;
+  }
+}
 
+@media (max-width: 540px) {
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 56px;
+  }
+}
 
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+#themeLabel, #themeSelect {
+  display: none;
+}
+
+body.dark #themeLabel, body.dark #themeSelect {
+  display: inline-block;
+}
 
 /* Font preview in dropdown options */
 #fontSelect option[value="Arial, sans-serif"] {
@@ -1173,4 +1424,271 @@ footer {
 }
 #fontSelect option[value="'Shadows Into Light', cursive"] {
   font-family: "Shadows Into Light", cursive;
+}
+
+@media (max-width: 520px) {
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 61.5px;
+  }
+  /* Hide header on scroll */
+  header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  .chapter-content {
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  #darkModeToggle {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    background: rgb(57, 57, 57);
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+  }
+
+  .novel-genre {
+    font-size: 0.65em;
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .novel-card {
+    padding: 10px 5px;
+    font-size: 14px;
+    min-height: 80px;
+  }
+
+  .content {
+    padding: 10px;
+    border-left: 5px solid var(--border-color);
+    border-right: 5px solid var(--border-color);
+  }
+  .sidebar {
+    width: 60%;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1002;
+    overflow-y: auto;
+  }
+  .sidebar.active ~ .main-container {
+    margin-left: 0%; /* untuk mempertahankan tesk saat sidebar dibuka */
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 24px;
+  }
+  .menu-btn {
+    background: var(--btn-bg);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: click;
+    margin-bottom: 20px;
+  }
+
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15px;
+  }
+  .chapter-content {
+    line-height: 1.6;
+    text-align: left;
+    border-bottom: 50px solid var(--border-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Hide header on scroll */
+  header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  #darkModeToggle {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    background: rgb(57, 57, 57);
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+  }
+}
+@media (max-width: 414px) {
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15px;
+  }
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15px;
+  }
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+    max-width: 1000px;
+  }
+
+  .novel-card {
+    padding: 10px 5px;
+    font-size: 14px;
+    min-height: 80px;
+    width: 120px;
+    height: 160px;
+  }
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15px;
+  }
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+
+  .novel-card.animate-in {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* View controls buttons */
+  .view-controls {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0;
+  }
+
+  .view-controls button {
+    background-color: var(--btn-bg);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+}
+
+@media (max-width: 360px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    padding: 15px 15px;
+    max-width: 1000px;
+  }
+
+  .novel-card {
+    padding: 10px 5px;
+    font-size: 14px;
+    min-height: 80px;
+    width: 119px;
+    height: 150px;
+  }
+  .chapter-nav {
+    margin: 10px 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15px;
+  }
+  .nav-btn {
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 14px;
+  }
+
+  .view-controls button {
+    padding: 4px 13px;
+    font-size: 14px;
+  }
+}
+
+.font-btn {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.font-btn:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-1px);
+}
+#darkModeToggle {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background: rgb(57, 57, 57);
+  border-radius: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
 }

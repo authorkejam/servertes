@@ -1,0 +1,1 @@
+Novel Another Side dan Being Kind ditambahkan sebagai sampel

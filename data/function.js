@@ -155,7 +155,7 @@ let currentView = "novels";
               line
                 .replace(/\*\*(.*)\*\*/g, "<strong>$1</strong>")
                 .replace(/\*(.*)\*/g, "<em>$1</em>")
-                .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">')
+                .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" loading="lazy">')
                 .replace(
                   /\[([^\]]+)\]\(([^)]+)\)/g,
                   '<a href="$2" target="_blank">$1</a>'
@@ -290,8 +290,7 @@ let currentView = "novels";
                 post.appendChild(content);
                 novelGallery.appendChild(post);
                 // Fetch and render content
-                fetch(chapter.file)
-                  .then((response) => response.text())
+                cachedFetch(chapter.file)
                   .then((md) => {
                     content.innerHTML = markdownToHTML(md);
                   })
@@ -345,6 +344,7 @@ let currentView = "novels";
                 const img = document.createElement("img");
                 img.src = item.cover;
                 img.alt = item.title + " cover";
+                img.loading = "lazy";
                 card.appendChild(img);
               }
 
@@ -427,6 +427,55 @@ let currentView = "novels";
           sidebarShownBySwipe = false;
         }
 
+        // Cache for fetched content (in-memory)
+        const contentCache = new Map();
+
+        // Cached fetch function with localStorage persistence
+        async function cachedFetch(url) {
+          // Check in-memory cache first
+          if (contentCache.has(url)) {
+            return contentCache.get(url);
+          }
+
+          // Check localStorage cache
+          const cacheKey = `contentCache_${btoa(url)}`; // Base64 encode URL for safe key
+          const cachedData = localStorage.getItem(cacheKey);
+          if (cachedData) {
+            try {
+              const { content, timestamp } = JSON.parse(cachedData);
+              const now = Date.now();
+              const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+              if (now - timestamp < cacheDuration) {
+                // Cache is valid, use it
+                contentCache.set(url, content); // Also set in-memory
+                return content;
+              } else {
+                // Cache expired, remove it
+                localStorage.removeItem(cacheKey);
+              }
+            } catch (e) {
+              // Invalid cache data, remove it
+              localStorage.removeItem(cacheKey);
+            }
+          }
+
+          // Fetch from server
+          try {
+            const response = await fetch(url);
+            const text = await response.text();
+            // Store in both caches
+            contentCache.set(url, text);
+            const cacheData = {
+              content: text,
+              timestamp: Date.now()
+            };
+            localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+            return text;
+          } catch (error) {
+            throw error;
+          }
+        }
+
         // Open chapter and render content
         function openChapter(index) {
           if (!currentNovel) return;
@@ -437,8 +486,7 @@ let currentView = "novels";
           readerNovelTitle.textContent = currentNovel.title;
           readerChapterTitle.textContent = chapter.title;
           chapterContent.classList.remove("content-visible");
-          fetch(chapter.file)
-            .then((response) => response.text())
+          cachedFetch(chapter.file)
             .then((md) => {
               chapterContent.innerHTML = markdownToHTML(md);
               chapterContent.classList.add("content-visible");
@@ -618,20 +666,6 @@ let currentView = "novels";
             updateFontFamily();
             chapterContent.style.textAlign = currentTextAlign; // apply last selected alignment/ingat pilihan align terakhir
           }, 100);
-          // Override fetch error with translation
-          fetch(chapter.file)
-            .then((response) => response.text())
-            .then((md) => {
-              chapterContent.innerHTML = markdownToHTML(md);
-              chapterContent.classList.add("content-visible");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            })
-            .catch((error) => {
-              chapterContent.innerHTML =
-                "<p>" +
-                getTranslation(currentLang, "errorLoadingChapter") +
-                "</p>";
-            });
         };
 
         // Text alignment control logic

@@ -1,1 +1,0 @@
-Novel "Jendela: Restaurant Keluarga" telah ditambahkan pada 12:11 PM, 28 oct, 2025. Status 'Ongoing'.

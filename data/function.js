@@ -670,6 +670,8 @@ function openNovel(novel) {
   novelGallery.style.display = "none";
   reader.classList.add("active");
   readerBackBtn.style.display = "block";
+  // Push state for back navigation
+  history.pushState({ page: 'reader' }, '', '');
   // Load last read chapter or first chapter
   const savedChapter = localStorage.getItem(`novel-${novel.id}-chapter`);
   const startIndex = savedChapter !== null ? parseInt(savedChapter) : 0;
@@ -870,6 +872,14 @@ menuBtn.onclick = () => {
   sidebarShownByHover = false;
   sidebarShownBySwipe = false;
 };
+
+// Handle device back button navigation
+window.addEventListener('popstate', (event) => {
+  if (currentNovel) {
+    currentNovel = null;
+    renderGallery();
+  }
+});
 
 // Initial render
 renderGallery();

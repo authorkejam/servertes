@@ -574,7 +574,7 @@ function renderGallery() {
           .then((md) => {
             content.innerHTML = markdownToHTML(md);
             // Update logo based on dark mode
-            const img = content.querySelector('img.author-logo');
+            const img = content.querySelector('img[src*="authorputih.png"]');
             if (img) {
               img.src = document.body.classList.contains("dark")
                 ? "../logo/authorhitam.png"
@@ -861,12 +861,12 @@ nextChapterBtn.addEventListener("click", () => {
   }
 });
 
-// Toggle sidebar menu
+// Toggle sidebar menu or back to novels on phone
 menuBtn.onclick = () => {
-  sidebar.classList.toggle("active");
-  if (sidebar.classList.contains("active")) {
-    menuBtn.style.display = "none";
-  }
+  currentNovel = null;
+  renderGallery();
+  menuBtn.style.display = "none";
+  readerBackBtn.style.display = "none";
   sidebarShownByHover = false;
   sidebarShownBySwipe = false;
 };

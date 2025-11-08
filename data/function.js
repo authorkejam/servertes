@@ -1,5 +1,6 @@
 let currentView = "novels";
 let currentData = novels;
+const views = ["novels", "novella", "blogs", "about"];
 function sortData(data, criterion) {
   data.sort((a, b) => {
     if (criterion === "name") {
@@ -670,8 +671,6 @@ function openNovel(novel) {
   novelGallery.style.display = "none";
   reader.classList.add("active");
   readerBackBtn.style.display = "block";
-  // Push state for back navigation
-  history.pushState({ page: 'reader' }, '', '');
   // Load last read chapter or first chapter
   const savedChapter = localStorage.getItem(`novel-${novel.id}-chapter`);
   const startIndex = savedChapter !== null ? parseInt(savedChapter) : 0;
@@ -845,6 +844,11 @@ let currentChapterIndex = 0;
 let currentNovel = null; // Added to fix ReferenceError for currentNovel
 let touchInReader = false;
 
+// Gallery swipe variables
+let galleryTouchStartX = 0;
+let galleryTouchStartY = 0;
+let galleryTouchStartTime = 0;
+
 // Previous and Next chapter buttons
 const prevChapterBtn = document.getElementById("prevChapterBtn");
 const nextChapterBtn = document.getElementById("nextChapterBtn");
@@ -863,23 +867,71 @@ nextChapterBtn.addEventListener("click", () => {
   }
 });
 
-// Toggle sidebar menu or back to novels on phone
+// Toggle sidebar menu
 menuBtn.onclick = () => {
-  currentNovel = null;
-  renderGallery();
-  menuBtn.style.display = "none";
-  readerBackBtn.style.display = "none";
+  sidebar.classList.toggle("active");
+  if (sidebar.classList.contains("active")) {
+    menuBtn.style.display = "none";
+  }
   sidebarShownByHover = false;
   sidebarShownBySwipe = false;
 };
 
-// Handle device back button navigation
-window.addEventListener('popstate', (event) => {
-  if (currentNovel) {
-    currentNovel = null;
-    renderGallery();
+// Gallery swipe event listeners
+novelGallery.addEventListener("touchstart", (e) => {
+  galleryTouchStartX = e.touches[0].clientX;
+  galleryTouchStartY = e.touches[0].clientY;
+  galleryTouchStartTime = Date.now();
+});
+
+novelGallery.addEventListener("touchend", (e) => {
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+  const deltaX = touchEndX - galleryTouchStartX;
+  const deltaY = touchEndY - galleryTouchStartY;
+  const deltaTime = Date.now() - galleryTouchStartTime;
+
+  // Check if it's a horizontal swipe (not vertical) and fast enough
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50 && deltaTime < 500) {
+    const currentIndex = views.indexOf(currentView);
+    if (deltaX > 0) {
+      // Swipe right: previous view
+      const prevIndex = (currentIndex - 1 + views.length) % views.length;
+      switchToView(views[prevIndex]);
+    } else {
+      // Swipe left: next view
+      const nextIndex = (currentIndex + 1) % views.length;
+      switchToView(views[nextIndex]);
+    }
   }
 });
+
+// Function to switch to a specific view
+function switchToView(view) {
+  currentView = view;
+  switch (view) {
+    case "novels":
+      currentData = novels;
+      break;
+    case "novella":
+      currentData = novella;
+      break;
+    case "blogs":
+      currentData = blogs;
+      break;
+    case "about":
+      currentData = about;
+      break;
+  }
+  currentNovel = null;
+  sortData(currentData, sortOptions[currentSortIndex].value);
+  updateBackButtons();
+  sidebar.classList.remove("active");
+  menuBtn.style.display = "none";
+  sidebarShownByHover = false;
+  sidebarShownBySwipe = false;
+  renderGallery();
+}
 
 // Initial render
 renderGallery();
